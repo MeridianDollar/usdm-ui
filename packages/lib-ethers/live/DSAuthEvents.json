@@ -1,0 +1,35 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "DSAuthEvents",
+  "sourceName": "contracts/TestContracts/DappSys/proxy.sol",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "authority",
+          "type": "address"
+        }
+      ],
+      "name": "LogSetAuthority",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "LogSetOwner",
+      "type": "event"
+    }
+  ],
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a723058204045a914acad7d6f18c134c706b99051a4d06d439eb84a93ac392706089809d50029",
+  "deployedBytecode": "0x6080604052600080fd00a165627a7a723058204045a914acad7d6f18c134c706b99051a4d06d439eb84a93ac392706089809d50029",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
