@@ -126,7 +126,7 @@ export const RedemptionManager: React.FC = () => {
             <InfoIcon
               tooltip={
                 <Card variant="tooltip" sx={{ minWidth: "240px" }}>
-                  The Redemption Fee is charged as a percentage of the redeemed Ether. The Redemption
+                  The Redemption Fee is charged as a percentage of the redeemed collateral. The Redemption
                   Fee depends on USDM redemption volumes and is 0.5% at minimum.
                 </Card>
               }

@@ -6,7 +6,8 @@ import { InfoMessage } from "../components/InfoMessage";
 import { useLiquity } from "../hooks/LiquityContext";
 import { Icon } from "../components/Icon";
 
-const uniLink = `https://trade.meridianfinance.net/#/trade`;
+const uniLink = `https://app.uniswap.org/swap`;
+const swapsicleLink = `https://app.swapsicle.io/swap`;
 // `https://app.Uniswap.cc/exchange/swap?inputCurrency=${lusdAddress}&outputCurrency=ETH`;
 
 export const RedemptionPage: React.FC = () => {
@@ -29,8 +30,8 @@ export const RedemptionPage: React.FC = () => {
               </Paragraph>
               <Paragraph sx={{ mt: 2 }}>
                 Most of the time you will get a better rate for converting USDM to {collateral} on{" "}
-                <Link href={uniLink} target="_blank">
-                  Meridian Trade<Icon name="external-link-alt" size="xs" />
+                <Link href={collateral === "TLOS" ? swapsicleLink : uniLink} target="_blank">
+                  {collateral === "TLOS" ? "Swapsicle" : "Uniswap"}<Icon name="external-link-alt" size="xs" />
                 </Link>{" "}
                 or other exchanges.
               </Paragraph>

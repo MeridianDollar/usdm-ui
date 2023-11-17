@@ -7,8 +7,6 @@ import { Stability } from "../components/Stability/Stability";
 import { PriceManager } from "../components/PriceManager";
 import { Staking } from "../components/Staking/Staking";
 import { SystemStats } from "../components/SystemStats";
-import NetworkSwitcher from '../components/NetworkSwitcher'; // Adjust the import path as needed
-
 
 const PageContainer: CSSProperties = {
     display: "flex",

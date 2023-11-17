@@ -18,6 +18,7 @@ import { useLiquity } from "../../../hooks/LiquityContext";
 import { ActionDescription, Amount } from "../../ActionDescription";
 import { ErrorDescription } from "../../ErrorDescription";
 
+
 const mcrPercent = new Percent(MINIMUM_COLLATERAL_RATIO).toString(0);
 const ccrPercent = new Percent(CRITICAL_COLLATERAL_RATIO).toString(0);
 
@@ -26,63 +27,66 @@ type TroveAdjustmentDescriptionParams = {
 };
 
 
-const TroveChangeDescription: React.FC<TroveAdjustmentDescriptionParams> = ({ params }) => (
-  <ActionDescription>
-    {params.depositCollateral && params.borrowLUSD ? (
-      <>
-        You will deposit <Amount>{params.depositCollateral.prettify()} ETH</Amount> and receive{" "}
-        <Amount>
-          {params.borrowLUSD.prettify()} {COIN}
-        </Amount>
-      </>
-    ) : params.repayLUSD && params.withdrawCollateral ? (
-      <>
-        You will pay{" "}
-        <Amount>
-          {params.repayLUSD.prettify()} {COIN}
-        </Amount>{" "}
-        and receive <Amount>{params.withdrawCollateral.prettify()} ETH</Amount>
-      </>
-    ) : params.depositCollateral && params.repayLUSD ? (
-      <>
-        You will deposit <Amount>{params.depositCollateral.prettify()} ETH</Amount> and pay{" "}
-        <Amount>
-          {params.repayLUSD.prettify()} {COIN}
-        </Amount>
-      </>
-    ) : params.borrowLUSD && params.withdrawCollateral ? (
-      <>
-        You will receive <Amount>{params.withdrawCollateral.prettify()} ETH</Amount> and{" "}
-        <Amount>
-          {params.borrowLUSD.prettify()} {COIN}
-        </Amount>
-      </>
-    ) : params.depositCollateral ? (
-      <>
-        You will deposit <Amount>{params.depositCollateral.prettify()} ETH</Amount>
-      </>
-    ) : params.withdrawCollateral ? (
-      <>
-        You will receive <Amount>{params.withdrawCollateral.prettify()} ETH</Amount>
-      </>
-    ) : params.borrowLUSD ? (
-      <>
-        You will receive{" "}
-        <Amount>
-          {params.borrowLUSD.prettify()} {COIN}
-        </Amount>
-      </>
-    ) : (
-      <>
-        You will pay{" "}
-        <Amount>
-          {params.repayLUSD.prettify()} {COIN}
-        </Amount>
-      </>
-    )}
-    .
-  </ActionDescription>
-);
+const TroveChangeDescription: React.FC<TroveAdjustmentDescriptionParams> = ({ params }) => {
+  const { collateral } = useLiquity();
+
+  return (
+    <ActionDescription>
+      {params.depositCollateral && params.borrowLUSD ? (
+        <>
+          You will deposit <Amount>{params.depositCollateral.prettify()} {collateral} </Amount> and receive{" "}
+          <Amount>
+            {params.borrowLUSD.prettify()} {COIN}
+          </Amount>
+        </>
+      ) : params.repayLUSD && params.withdrawCollateral ? (
+        <>
+          You will pay{" "}
+          <Amount>
+            {params.repayLUSD.prettify()} {COIN}
+          </Amount>{" "}
+          and receive <Amount>{params.withdrawCollateral.prettify()} {collateral} </Amount>
+        </>
+      ) : params.depositCollateral && params.repayLUSD ? (
+        <>
+          You will deposit <Amount>{params.depositCollateral.prettify()} {collateral} </Amount> and pay{" "}
+          <Amount>
+            {params.repayLUSD.prettify()} {COIN}
+          </Amount>
+        </>
+      ) : params.borrowLUSD && params.withdrawCollateral ? (
+        <>
+          You will receive <Amount>{params.withdrawCollateral.prettify()} {collateral} </Amount> and{" "}
+          <Amount>
+            {params.borrowLUSD.prettify()} {COIN}
+          </Amount>
+        </>
+      ) : params.depositCollateral ? (
+        <>
+          You will deposit <Amount>{params.depositCollateral.prettify()} {collateral} </Amount>
+        </>
+      ) : params.withdrawCollateral ? (
+        <>
+          You will receive <Amount>{params.withdrawCollateral.prettify()} {collateral} </Amount>
+        </>
+      ) : params.borrowLUSD ? (
+        <>
+          You will receive{" "}
+          <Amount>
+            {params.borrowLUSD.prettify()} {COIN}
+          </Amount>
+        </>
+      ) : (
+        <>
+          You will pay{" "}
+          <Amount>
+            {params.repayLUSD.prettify()} {COIN}
+          </Amount>
+        </>
+      )}
+    </ActionDescription>
+  );
+};
 
 export const selectForTroveChangeValidation = ({
   price,
@@ -107,9 +111,9 @@ export const validateTroveChange = (
   borrowingRate: Decimal,
   selectedState: TroveChangeValidationSelectedState
 ): [
-  validChange: Exclude<TroveChange<Decimal>, { type: "invalidCreation" }> | undefined,
-  description: JSX.Element | undefined
-] => {
+    validChange: Exclude<TroveChange<Decimal>, { type: "invalidCreation" }> | undefined,
+    description: JSX.Element | undefined
+  ] => {
   const { total, price } = selectedState;
   const change = originalTrove.whatChanged(adjustedTrove, borrowingRate);
 
@@ -152,8 +156,8 @@ export const validateTroveChange = (
     change.type === "creation"
       ? validateTroveCreation(change.params, context)
       : change.type === "closure"
-      ? validateTroveClosure(change.params, context)
-      : validateTroveAdjustment(change.params, context);
+        ? validateTroveClosure(change.params, context)
+        : validateTroveAdjustment(change.params, context);
 
   if (errorDescription) {
     return [undefined, errorDescription];
@@ -163,6 +167,7 @@ export const validateTroveChange = (
 };
 
 const validateTroveCreation = (
+  
   { depositCollateral, borrowLUSD }: TroveCreationParams<Decimal>,
   {
     resultingTrove,
@@ -173,6 +178,8 @@ const validateTroveCreation = (
   }: TroveChangeValidationContext
 ): JSX.Element | null => {
   if (borrowLUSD.lt(LUSD_MINIMUM_NET_DEBT)) {
+    
+
     return (
       <ErrorDescription>
         You must borrow at least{" "}
@@ -225,6 +232,8 @@ const validateTroveCreation = (
 };
 
 const validateTroveAdjustment = (
+  
+
   { depositCollateral, withdrawCollateral, borrowLUSD, repayLUSD }: TroveAdjustmentParams<Decimal>,
   {
     originalTrove,

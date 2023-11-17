@@ -47,17 +47,17 @@ export const Yield: React.FC = () => {
 
   return (
     <Badge>
-      <Text>MST APR {aprPercentage.toString(2)}%</Text>
+      <Text>{collateral === "TLOS" ? "WTLOS" : "MST"}  APR {aprPercentage.toString(2)}%</Text>
       <InfoIcon
         tooltip={
           <Card variant="tooltip" sx={{ width: ["220px", "518px"] }}>
             <Paragraph>
-              An <Text sx={{ fontWeight: "bold" }}>estimate</Text> of the MST return on the USDM
+              An <Text sx={{ fontWeight: "bold" }}>estimate</Text> of the {collateral === "TLOS" ? "WTLOS" : "MST"} return on the USDM
               deposited to the Stability Pool over the next year, not including your {collateral} gains from
               liquidations.
             </Paragraph>
             <Paragraph sx={{ fontSize: "12px", fontFamily: "monospace", mt: 2 }}>
-              ($MST_REWARDS * DAILY_ISSUANCE% / DEPOSITED_USDM) * 365 * 100 ={" "}
+              ($REWARDS * DAILY_ISSUANCE% / DEPOSITED_USDM) * 365 * 100 ={" "}
               <Text sx={{ fontWeight: "bold" }}> APR</Text>
             </Paragraph>
             <Paragraph sx={{ fontSize: "12px", fontFamily: "monospace" }}>

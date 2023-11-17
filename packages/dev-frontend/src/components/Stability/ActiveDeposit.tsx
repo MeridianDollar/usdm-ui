@@ -89,12 +89,12 @@ export const ActiveDeposit: React.FC = () => {
               inputId="deposit-reward"
               amount={stabilityDeposit.lqtyReward.prettify()}
               color={stabilityDeposit.lqtyReward.nonZero && "success"}
-              unit={GT}
+              unit={collateral === "TLOS" ? "WTLOS" : GT}
               infoIcon={
                 <InfoIcon
                   tooltip={
                     <Card variant="tooltip" sx={{ width: "240px" }}>
-                      Although the MST rewards accrue every minute, the value on the UI only updates
+                      Although the {collateral} rewards accrue every minute, the value on the UI only updates
                       when a user transacts with the Stability Pool. Therefore you may receive more
                       rewards than is displayed when you claim or adjust your deposit.
                     </Card>
@@ -114,11 +114,11 @@ export const ActiveDeposit: React.FC = () => {
             &nbsp;Adjust
           </Button>
 
-          <ClaimRewards disabled={!hasGain && !hasReward}>Claim {collateral} and MST</ClaimRewards>
+          <ClaimRewards disabled={!hasGain && !hasReward}>Claim {collateral} and {collateral === "TLOS" ? "WTLOS" : GT}</ClaimRewards>
         </Flex>
 
         {hasTrove && (
-          <ClaimAndMove disabled={!hasGain}>Claim MST and move {collateral} to Trove</ClaimAndMove>
+          <ClaimAndMove disabled={!hasGain}>Claim {collateral === "TLOS" ? "WTLOS" : GT} and move {collateral} to Trove</ClaimAndMove>
         )}
       </Box>
 

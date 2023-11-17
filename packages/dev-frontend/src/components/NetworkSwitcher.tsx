@@ -3,13 +3,13 @@
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import Select from 'react-select';
-
+import { useLiquity } from "../hooks/LiquityContext";
 
 function NetworkSwitcher() {
   const [selectedNetwork, setSelectedNetwork] = useState(); // Default to Base Mainnet
   const [availableNetworks, setAvailableNetworks] = useState([
-    { id: '0x2105', name: 'Base' },
-    { id: '0x29', name: 'Telos' },
+    { value: '0x2105', label: 'Base' },
+    { value: '0x29', label: 'Telos' },
     // Add more networks as needed
   ]);
 
@@ -38,48 +38,27 @@ function NetworkSwitcher() {
     changeNetwork();
   }, [selectedNetwork]);
 
-  const handleNetworkChange = (event) => {
-    setSelectedNetwork(event.target.value);
+  const handleNetworkChange = (selectedOption) => {
+    setSelectedNetwork(selectedOption.value);
   };
+
+  const { collateral } = useLiquity();
 
   return (
     <div style={{ position: "relative" }}>
-      <select
-        id="networkSelect"
-        value={selectedNetwork}
+      <Select
+        options={availableNetworks}
+        value={{ value: selectedNetwork, label: collateral === "TLOS" ? "Telos" : "Base" }}
         onChange={handleNetworkChange}
-        style={{
-          padding: "10px",
-          borderRadius: "5px",
-          border: "1px solid #ccc",
-          width: "120px",
-          backgroundColor: "#a3d4f5ff", // Change this color
-          fontSize: "16px",
-          color: "#333",
+        styles={{
+          container: (provided) => ({
+            ...provided,
+            width: 120,
+          }),
         }}
-      >
-        {availableNetworks.map((network) => (
-          <option key={network.id} value={network.id}>
-            {network.name}
-          </option>
-        ))}
-      </select>
-      <div
-        style={{
-          position: "absolute",
-          top: "50%",
-          right: "10px",
-          transform: "translateY(-50%)",
-        }}
-      >
-        ▼
-      </div>
+      />
     </div>
-
   );
 }
 
 export default NetworkSwitcher;
-
-
-

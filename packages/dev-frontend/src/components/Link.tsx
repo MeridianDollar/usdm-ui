@@ -8,15 +8,16 @@ export const ExactLink: React.FC<CombinedProps> = props => {
   return <RouterLink exact {...props} />;
 };
 
-export const Link: React.FC<CombinedProps> = props => {
-  const isExternalLink = typeof props.to === "string" && (props.to.startsWith('http://') || props.to.startsWith('https://'));
+export const Link: React.FC<CombinedProps> = (props) => {
+  const isExternalLink =
+    typeof props.to === "string" && (props.to.startsWith("http://") || props.to.startsWith("https://"));
 
   if (isExternalLink) {
     return (
       <ThemeUINavLink
         {...props}
         as="a"
-        href={typeof props.to === "string" ? props.to : undefined} // This line ensures that `props.to` is treated as a string
+        href={typeof props.to === "string" ? props.to : undefined}
         rel="noopener noreferrer"
         sx={{
           fontSize: "13px",
@@ -27,7 +28,9 @@ export const Link: React.FC<CombinedProps> = props => {
           textTransform: "none",
           // Add any other custom styling you need here
         }}
-      />
+      >
+        {props.children}
+      </ThemeUINavLink>
     );
   } else {
     return (
@@ -43,7 +46,9 @@ export const Link: React.FC<CombinedProps> = props => {
           textTransform: "none",
           // Add any other custom styling you need here
         }}
-      />
+      >
+        {props.children}
+      </ThemeUINavLink>
     );
   }
 };
