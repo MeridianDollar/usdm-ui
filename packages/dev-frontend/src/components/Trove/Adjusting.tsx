@@ -27,6 +27,7 @@ import {
   validateTroveChange
 } from "./validation/validateTroveChange";
 
+
 const selector = (state: LiquityStoreState) => {
   const { trove, fees, price, accountBalance } = state;
   return {

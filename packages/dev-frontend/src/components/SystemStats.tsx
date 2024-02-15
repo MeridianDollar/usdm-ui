@@ -111,6 +111,14 @@ export const SystemStats: React.FC<SystemStatsProps> = ({ variant = "info", show
   const borrowingFeePct = new Percent(borrowingRate);
   const kickbackRatePct = frontendTag === AddressZero ? "100" : kickbackRate?.mul(100).prettify();
 
+  let decimals: number;
+
+  if (collateral === "TLOS") {
+    decimals = 4;
+  } else {
+    decimals = 2;
+  }
+
   return (
     <Card {...{ variant }}>
       {showBalances && <Balances />}
@@ -169,7 +177,7 @@ export const SystemStats: React.FC<SystemStatsProps> = ({ variant = "info", show
         name={`${collateral} Oracle Price`}
         tooltip={`Latest ${collateral} Price as reported by DIA Oracle`}
       >
-        &nbsp;${Decimal.from(price).shorten()}
+        &nbsp;${Decimal.from(price).shorten_4(decimals)}
       </Statistic>
       <Statistic
         name="MST Price"
@@ -182,7 +190,7 @@ export const SystemStats: React.FC<SystemStatsProps> = ({ variant = "info", show
           </>
         }
       >
-        &nbsp;${Decimal.from(lqtyPrice || 0).shorten()}
+        &nbsp;${Decimal.from(lqtyPrice || 0).shorten_4(4)}
       </Statistic>
       <Statistic
         name="MST Market Cap"

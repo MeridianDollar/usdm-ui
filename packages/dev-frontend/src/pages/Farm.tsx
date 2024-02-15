@@ -8,7 +8,7 @@ export const Farm: React.FC = () => (
       <FarmPanel />
     </Container>
 
-    <Container variant="right">
+    <Container variant="center">
       <SystemStats />
     </Container>
   </Container>

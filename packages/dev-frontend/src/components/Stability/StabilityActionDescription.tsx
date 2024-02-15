@@ -17,7 +17,7 @@ export const StabilityActionDescription: React.FC<StabilityActionDescriptionProp
 }) => {
   const { collateral } = useLiquity();
   const collateralGain = originalDeposit.collateralGain.nonZero?.prettify(4).concat({ collateral }.toString());
-  const lqtyReward = originalDeposit.lqtyReward.nonZero?.prettify().concat(" ", GT);
+  const lqtyReward = originalDeposit.lqtyReward.nonZero?.prettify().concat(" ", collateral === "TLOS" ? "WTLOS" : collateral === "FUSE" ? "WFUSE" : GT);
 
   return (
     <ActionDescription>

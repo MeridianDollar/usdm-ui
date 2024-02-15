@@ -24,7 +24,7 @@ export const NoDeposit: React.FC = props => {
       </Heading>
       <Box sx={{ p: [2, 3] }}>
         <InfoMessage title="You have no USDM in the Stability Pool.">
-          You can earn {collateral} and {collateral === "TLOS" ? "WTLOS" : "MST"} rewards by depositing USDM.
+          You can earn {collateral} and {collateral === "TLOS" ? "WTLOS" : collateral === "FUSE" ? "WFUSE" : "MST"} rewards by depositing USDM.
         </InfoMessage>
 
         <Flex variant="layout.actions">

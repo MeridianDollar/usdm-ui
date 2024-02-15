@@ -19,7 +19,7 @@
         "hintHelpers": "0x0685E185C6AA00Fee55881D3E0a62799FFE185c1",
         "lockupContractFactory": "0xF11d720A07eB991381aC3DF71e7a9ffD39F60Caf",
         "lqtyStaking": "0xfCcD02F7a964DE33032cb57746DC3B5F9319eaB7",
-        "priceFeed": "0xb2e7f5C0a40c972fd9F0650AD0D76f05801E4942",
+        "priceFeed": "0x18C9712c38d7aC0cf7dE744bf9f82C46eAdA33aE",
         "sortedTroves": "0x69490577D2CFf0C0235F899C9F4Ac46B5a1ED6B0",
         "stabilityPool": "0xED7FEe2F4A8Fc3Ca353870e3C1a011b24cBe4117",
         "gasPool": "0xa2afaE71773c82A9b889E7ef8AD104Db01F3BED7",

@@ -21,22 +21,40 @@ interface MaybeHasMetaMask {
 type ConnectionState =
   | { type: "inactive" }
   | {
-      type: "activating" | "active" | "rejectedByUser" | "alreadyPending" | "failed";
-      connector: AbstractConnector;
-    };
+    type: "activating" | "active" | "rejectedByUser" | "alreadyPending" | "failed";
+    connector: AbstractConnector;
+  }
+  | { type: "waitingForAgreement"; connector: AbstractConnector };
+
+// ... (existing code)
 
 type ConnectionAction =
-  | { type: "startActivating"; connector: AbstractConnector }
+  | { type: "startActivating" | "agreeToTerms"; connector: AbstractConnector }
   | { type: "fail"; error: Error }
   | { type: "finishActivating" | "retry" | "cancel" | "deactivate" };
 
 const connectionReducer: React.Reducer<ConnectionState, ConnectionAction> = (state, action) => {
   switch (action.type) {
     case "startActivating":
+      if (state.type === "waitingForAgreement") {
+        return {
+          type: "activating",
+          connector: action.connector
+        };
+      }
       return {
-        type: "activating",
+        type: "waitingForAgreement",
         connector: action.connector
       };
+
+    case "agreeToTerms":
+      if (state.type === "waitingForAgreement") {
+        return {
+          type: "activating",
+          connector: state.connector
+        };
+      }
+      break;
     case "finishActivating":
       return {
         type: "active",
@@ -48,8 +66,8 @@ const connectionReducer: React.Reducer<ConnectionState, ConnectionAction> = (sta
           type: action.error.message.match(/user rejected/i)
             ? "rejectedByUser"
             : action.error.message.match(/already pending/i)
-            ? "alreadyPending"
-            : "failed",
+              ? "alreadyPending"
+              : "failed",
           connector: state.connector
         };
       }
@@ -117,6 +135,21 @@ export const WalletConnector: React.FC<WalletConnectorProps> = ({ children, load
 
   return (
     <>
+      {connectionState.type === "waitingForAgreement" && (
+        <Modal>
+          <ConnectionConfirmationDialog
+            title="Terms of Service Agreement"
+            onCancel={() => dispatch({ type: "cancel" })}
+          >
+            <Text sx={{ textAlign: "center" }}>
+              By connecting to MetaMask, you agree to our Terms of Service.
+            </Text>
+            <Button onClick={() => dispatch({ type: "agreeToTerms", connector: injectedConnector })}>
+              Agree and Connect
+            </Button>
+          </ConnectionConfirmationDialog>
+        </Modal>
+      )}
       <Flex sx={{ height: "100vh", justifyContent: "center", alignItems: "center" }}>
         <Button
           onClick={() => {
@@ -189,7 +222,7 @@ export const WalletConnector: React.FC<WalletConnectorProps> = ({ children, load
               activate(connectionState.connector);
             }}
           >
-            <Text>To use Meridian, you need to connect your Ethereum account.</Text>
+            <Text>To use Meridian, you need to connect your Metamask account.</Text>
           </RetryDialog>
         </Modal>
       )}

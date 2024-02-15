@@ -30,10 +30,10 @@ const beneficiaries = {
     TEST_INVESTOR_E: "0x89ff871dbcd0a456fe92db98d190c38bc10d1cc1"
 }
 
-const OUTPUT_FILE = './mainnetDeployment/telos_testnetDeploymentOutput.json'
+const OUTPUT_FILE = './mainnetDeployment/telos_mainnetDeploymentOutput.json'
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
-const waitFunction = async() => {
+const waitFunction = async () => {
     return delay(90000) // wait 90s
 }
 

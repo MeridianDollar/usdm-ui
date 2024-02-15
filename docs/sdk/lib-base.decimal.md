@@ -49,6 +49,7 @@ Used by Liquity libraries to precisely represent native currency (e.g. Ether), L
 |  [mulDiv(multiplier, divider)](./lib-base.decimal.muldiv.md) |  |  |
 |  [pow(exponent)](./lib-base.decimal.pow.md) |  |  |
 |  [prettify(precision)](./lib-base.decimal.prettify.md) |  |  |
+|  [shorten\_4(decimalPlaces)](./lib-base.decimal.shorten_4.md) |  |  |
 |  [shorten()](./lib-base.decimal.shorten.md) |  |  |
 |  [sub(subtrahend)](./lib-base.decimal.sub.md) |  |  |
 |  [toString(precision)](./lib-base.decimal.tostring.md) |  |  |

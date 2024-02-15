@@ -6,8 +6,8 @@ import { InfoMessage } from "../components/InfoMessage";
 import { useLiquity } from "../hooks/LiquityContext";
 import { Icon } from "../components/Icon";
 
-const uniLink = `https://app.uniswap.org/swap`;
-const swapsicleLink = `https://app.swapsicle.io/swap`;
+const uniLink = `https://app.uniswap.org/swap?exactField=input&exactAmount=0&outputCurrency=0x2F3b1A07E3eFb1fCc64BD09b86bD0Fa885D93552&chain=base`;
+const swapsicleLink = `https://telos.swapsicle.io/swap?outputCurrency=0x568524DA340579887db50Ecf602Cd1BA8451b243&inputCurrency=0x8D97Cea50351Fb4329d591682b148D43a0C3611b`;
 // `https://app.Uniswap.cc/exchange/swap?inputCurrency=${lusdAddress}&outputCurrency=ETH`;
 
 export const RedemptionPage: React.FC = () => {

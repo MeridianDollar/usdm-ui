@@ -18,6 +18,9 @@ import { StakingEditor } from "./StakingEditor";
 import { StakingManagerAction } from "./StakingManagerAction";
 import { ActionDescription, Amount } from "../ActionDescription";
 import { ErrorDescription } from "../ErrorDescription";
+import { Approve } from "../../components/Farm/views/Approve";
+import { useLiquity } from "../../hooks/LiquityContext";
+
 
 const init = ({ lqtyStake }: LiquityStoreState) => ({
   originalStake: lqtyStake,
@@ -71,9 +74,11 @@ const StakingManagerActionDescription: React.FC<StakingManagerActionDescriptionP
   originalStake,
   change
 }) => {
+  const result = useLiquity();
+  const collateral = result?.collateral ?? "ETH";
   const stakeLQTY = change.stakeLQTY?.prettify().concat(" ", GT);
   const unstakeLQTY = change.unstakeLQTY?.prettify().concat(" ", GT);
-  const collateralGain = originalStake.collateralGain.nonZero?.prettify(4).concat(" ETH");
+  const collateralGain = originalStake.collateralGain.nonZero?.prettify(4).concat(" ", collateral);
   const lusdGain = originalStake.lusdGain.nonZero?.prettify().concat(" ", COIN);
 
   if (originalStake.isEmpty && stakeLQTY) {
@@ -117,6 +122,7 @@ const StakingManagerActionDescription: React.FC<StakingManagerActionDescriptionP
 };
 
 export const StakingManager: React.FC = () => {
+  const { collateral } = useLiquity();
   const { dispatch: dispatchStakingViewAction } = useStakingView();
   const [{ originalStake, editedLQTY }, dispatch] = useLiquityReducer(reduce, init);
   const lqtyBalance = useLiquitySelector(selectLQTYBalance);
@@ -149,19 +155,26 @@ export const StakingManager: React.FC = () => {
         ))}
 
       <Flex variant="layout.actions">
-        <Button
-          variant="cancel"
-          onClick={() => dispatchStakingViewAction({ type: "cancelAdjusting" })}
-        >
-          Cancel
-        </Button>
-
-        {validChange ? (
-          <StakingManagerAction change={validChange}>Confirm</StakingManagerAction>
-        ) : (
-          <Button disabled>Confirm</Button>
+        {makingNewStake && collateral === "TLOS" && (
+          <Approve amount={lqtyBalance} />
         )}
+        <>
+          <Button
+            variant="cancel"
+            onClick={() => dispatchStakingViewAction({ type: "cancelAdjusting" })}
+          >
+            Cancel
+          </Button>
+
+          {validChange ? (
+            <StakingManagerAction change={validChange}>Confirm</StakingManagerAction>
+          ) : (
+            <Button disabled>Confirm</Button>
+          )}
+        </>
+
       </Flex>
-    </StakingEditor>
+    </StakingEditor >
+
   );
 };

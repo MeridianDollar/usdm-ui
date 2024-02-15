@@ -19,6 +19,7 @@ export const Link: React.FC<CombinedProps> = (props) => {
         as="a"
         href={typeof props.to === "string" ? props.to : undefined}
         rel="noopener noreferrer"
+        target="_blank"  // Add this line to open in a new page
         sx={{
           fontSize: "13px",
           fontWeight: "normal",

@@ -167,7 +167,7 @@ export const validateTroveChange = (
 };
 
 const validateTroveCreation = (
-  
+
   { depositCollateral, borrowLUSD }: TroveCreationParams<Decimal>,
   {
     resultingTrove,
@@ -178,7 +178,7 @@ const validateTroveCreation = (
   }: TroveChangeValidationContext
 ): JSX.Element | null => {
   if (borrowLUSD.lt(LUSD_MINIMUM_NET_DEBT)) {
-    
+
 
     return (
       <ErrorDescription>
@@ -222,8 +222,7 @@ const validateTroveCreation = (
   if (depositCollateral.gt(accountBalance)) {
     return (
       <ErrorDescription>
-        The amount you're trying to deposit exceeds your balance by{" "}
-        <Amount>{depositCollateral.sub(accountBalance).prettify()} ETH</Amount>.
+        The amount you're trying to deposit exceeds your current balance
       </ErrorDescription>
     );
   }
@@ -232,7 +231,7 @@ const validateTroveCreation = (
 };
 
 const validateTroveAdjustment = (
-  
+
 
   { depositCollateral, withdrawCollateral, borrowLUSD, repayLUSD }: TroveAdjustmentParams<Decimal>,
   {
@@ -320,8 +319,7 @@ const validateTroveAdjustment = (
   if (depositCollateral?.gt(accountBalance)) {
     return (
       <ErrorDescription>
-        The amount you're trying to deposit exceeds your balance by{" "}
-        <Amount>{depositCollateral.sub(accountBalance).prettify()} ETH</Amount>.
+        The amount you're trying to deposit exceeds your current balance
       </ErrorDescription>
     );
   }

@@ -1,5 +1,5 @@
 const { mainnetDeploy } = require('./mainnetDeployment.js')
-const configParams = require("./deploymentParams.telos_mainnet.js")
+const configParams = require("./deploymentParams.fus_testnet.js")
 
 async function main() {
     await mainnetDeploy(configParams)

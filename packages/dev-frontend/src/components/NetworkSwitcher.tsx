@@ -9,7 +9,8 @@ function NetworkSwitcher() {
   const [selectedNetwork, setSelectedNetwork] = useState(); // Default to Base Mainnet
   const [availableNetworks, setAvailableNetworks] = useState([
     { value: '0x2105', label: 'Base' },
-    { value: '0x29', label: 'Telos' },
+    { value: '0x28', label: 'Telos' },
+    { value: '0x7A', label: 'Fuse' },
     // Add more networks as needed
   ]);
 
@@ -48,7 +49,10 @@ function NetworkSwitcher() {
     <div style={{ position: "relative" }}>
       <Select
         options={availableNetworks}
-        value={{ value: selectedNetwork, label: collateral === "TLOS" ? "Telos" : "Base" }}
+        value={{
+          value: selectedNetwork,
+          label: collateral === "TLOS" ? "Telos" : collateral === "FUSE" ? "Fuse" : "Base"
+        }}
         onChange={handleNetworkChange}
         styles={{
           container: (provided) => ({

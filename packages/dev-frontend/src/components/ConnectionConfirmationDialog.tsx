@@ -1,6 +1,5 @@
 import React from "react";
 import { Text, Box } from "theme-ui";
-
 import { WaitingDialog } from "./WaitingDialog";
 
 type ConnectionConfirmationDialogProps = {
@@ -21,7 +20,6 @@ export const ConnectionConfirmationDialog: React.FC<ConnectionConfirmationDialog
     waitReason={
       <>
         <Text sx={{ fontWeight: "bold" }}>Waiting for connection confirmation...</Text>
-        <Text>This won’t cost you any Ether</Text>
       </>
     }
     cancelLabel="Cancel connection"

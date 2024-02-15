@@ -321,9 +321,9 @@ export class ReadableEthersLiquity implements ReadableLiquity {
   /** {@inheritDoc @liquity/lib-base#ReadableLiquity.getUniTokenAllowance} */
   getUniTokenAllowance(address?: string, overrides?: EthersCallOverrides): Promise<Decimal> {
     address ??= _requireAddress(this.connection);
-    const { uniToken, unipool } = _getContracts(this.connection);
+    const { uniToken, lqtyStaking } = _getContracts(this.connection);
 
-    return uniToken.allowance(address, unipool.address, { ...overrides }).then(decimalify);
+    return uniToken.allowance(address, lqtyStaking.address, { ...overrides }).then(decimalify);
   }
 
   /** @internal */

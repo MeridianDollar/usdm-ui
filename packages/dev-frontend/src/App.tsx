@@ -100,9 +100,9 @@ const App = () => {
     >
       <Heading sx={{ mb: 3 }}>
         <Icon name="exclamation-triangle" /> Meridian is not yet deployed to{" "}
-        {chainId === 1 ? "mainnet" : "this network"}.
+        {chainId === 1 ? "this network" : "this network"}.
       </Heading>
-      Please switch to Base Network.
+      Please change your network to either Telos or Base or Fuse.
     </Flex>
   );
 

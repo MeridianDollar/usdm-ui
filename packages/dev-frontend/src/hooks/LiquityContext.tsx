@@ -52,10 +52,12 @@ export const LiquityProvider: React.FC<LiquityProviderProps> = ({
     if (config && provider && account && chainId) {
       try {
         // Define the conditions to set "word" based on "chainId"
-        if (chainId === 41) {
+        if (chainId === 40) {
           setCollateral("TLOS");
         } else if (chainId === 8453) {
           setCollateral("ETH");
+        } else if (chainId === 122) {
+          setCollateral("FUSE");
         }
         return _connectByChainId(provider, provider.getSigner(account), chainId, {
           userAddress: account,

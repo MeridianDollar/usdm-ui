@@ -188,6 +188,18 @@ export class Decimal {
     return normalized.prettify(precision) + magnitudes[magnitude];
   }
 
+  shorten_4(decimalPlaces: number): string {
+    // ... (previous code remains unchanged)
+    const characteristicLength = this.toString(0).length;
+    const magnitude = Math.min(Math.floor((characteristicLength - 1) / 3), magnitudes.length - 1);
+      
+    // Increase the precision by setting the decimal places
+    const normalized = this.div(new Decimal(getDigits(PRECISION + 3 * magnitude)));
+    
+    // Format the normalized number with the increased decimal places
+    return normalized.prettify(decimalPlaces) + magnitudes[magnitude];
+  }
+
   add(addend: Decimalish): Decimal {
     return new Decimal(this._bigNumber.add(Decimal.from(addend)._bigNumber));
   }
@@ -199,6 +211,7 @@ export class Decimal {
   mul(multiplier: Decimalish): Decimal {
     return new Decimal(this._bigNumber.mul(Decimal.from(multiplier)._bigNumber).div(DIGITS));
   }
+
 
   div(divider: Decimalish): Decimal {
     divider = Decimal.from(divider);

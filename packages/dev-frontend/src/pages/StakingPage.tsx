@@ -7,6 +7,8 @@ import { Stability } from "../components/Stability/Stability";
 import { PriceManager } from "../components/PriceManager";
 import { Staking } from "../components/Staking/Staking";
 import { SystemStats } from "../components/SystemStats";
+import { Approve } from "../components/Farm/views/Approve";
+import { Farm as FarmPanel } from "../components/Farm/Farm";
 
 
 const PageContainer: CSSProperties = {
@@ -42,7 +44,7 @@ export const StakingPage: React.FC = () => {
         switch (activeTab) {
             case "Trove":
                 return <Trove />;
-            case "Stability":
+            case "Stability Pool":
                 return <Stability />;
             case "Staking":
                 return <Staking />;
@@ -52,6 +54,7 @@ export const StakingPage: React.FC = () => {
     };
 
     return (
+
         <Container>
             <div style={PageContainer}>
                 <div style={Submenu}>
@@ -62,8 +65,8 @@ export const StakingPage: React.FC = () => {
                         Trove
                     </div>
                     <div
-                        style={{ ...SubmenuItem, color: activeTab === "Stability" ? "#98aec6" : "inherit" }}
-                        onClick={() => handleTabClick("Stability")}
+                        style={{ ...SubmenuItem, color: activeTab === "Stability Pool" ? "#98aec6" : "inherit" }}
+                        onClick={() => handleTabClick("Stability Pool")}
                     >
                         Stability
                     </div>

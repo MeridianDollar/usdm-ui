@@ -45,6 +45,7 @@ import {
 
 import {
   EthersLiquityConnection,
+  _InternalEthersLiquityConnection,
   _getContracts,
   _requireAddress,
   _requireSigner
@@ -1348,13 +1349,13 @@ export class PopulatableEthersLiquity
     allowance?: Decimalish,
     overrides?: EthersTransactionOverrides
   ): Promise<PopulatedEthersLiquityTransaction<void>> {
-    const { uniToken, unipool } = _getContracts(this._readable.connection);
+    const { uniToken, lqtyStaking } = _getContracts(this._readable.connection);
 
     return this._wrapSimpleTransaction(
       await uniToken.estimateAndPopulate.approve(
         { ...overrides },
         id,
-        unipool.address,
+        lqtyStaking.address,
         Decimal.from(allowance ?? Decimal.INFINITY).hex
       )
     );

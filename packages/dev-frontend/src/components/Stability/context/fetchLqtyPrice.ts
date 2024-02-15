@@ -90,6 +90,22 @@ export const fetchMSTPrice = async (): Promise<MstPriceResponse> => {
   };
 };
 
+
+export interface TLOSYieldResponse {
+  TLOSYield: Decimal;
+}
+
+export const fetchTLOSYield = async (): Promise<TLOSYieldResponse> => {
+  const url = "https://omnidex.bmaa3ajd1gjri.eu-west-2.cs.amazonlightsail.com/stability_pool_yield";
+  const response = await fetch(url);
+  const data = await response.json();
+  return {
+    TLOSYield: Decimal.from(data)
+  };
+};
+
+
+
 export interface MSTMcapResponse {
   MstMcapUSD: Decimal;
 }

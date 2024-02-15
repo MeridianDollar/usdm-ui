@@ -167,8 +167,8 @@ export interface CollSurplusPool
 
 interface CommunityIssuanceCalls {
   DECIMAL_PRECISION(_overrides?: CallOverrides): Promise<BigNumber>;
-  // ISSUANCE_FACTOR(_overrides?: CallOverrides): Promise<BigNumber>;
-  // LQTYSupplyCap(_overrides?: CallOverrides): Promise<BigNumber>;
+  ISSUANCE_FACTOR(_overrides?: CallOverrides): Promise<BigNumber>;
+  LQTYSupplyCap(_overrides?: CallOverrides): Promise<BigNumber>;
   NAME(_overrides?: CallOverrides): Promise<string>;
   SECONDS_IN_ONE_MINUTE(_overrides?: CallOverrides): Promise<BigNumber>;
   deploymentTime(_overrides?: CallOverrides): Promise<BigNumber>;
@@ -176,7 +176,7 @@ interface CommunityIssuanceCalls {
   lqtyToken(_overrides?: CallOverrides): Promise<string>;
   owner(_overrides?: CallOverrides): Promise<string>;
   stabilityPoolAddress(_overrides?: CallOverrides): Promise<string>;
-  totalRewardsIssued(_overrides?: CallOverrides): Promise<BigNumber>;
+  totalLQTYIssued(_overrides?: CallOverrides): Promise<BigNumber>;
 }
 
 interface CommunityIssuanceTransactions {
@@ -193,10 +193,10 @@ export interface CommunityIssuance
     StabilityPoolAddressSet(_stabilityPoolAddress?: null): EventFilter;
     TotalLQTYIssuedUpdated(_totalLQTYIssued?: null): EventFilter;
   };
-  extractEvents(logs: Log[], name: "RewardsTokenAddressSet"): _TypedLogDescription<{ _lqtyTokenAddress: string }>[];
+  extractEvents(logs: Log[], name: "LQTYTokenAddressSet"): _TypedLogDescription<{ _lqtyTokenAddress: string }>[];
   extractEvents(logs: Log[], name: "OwnershipTransferred"): _TypedLogDescription<{ previousOwner: string; newOwner: string }>[];
   extractEvents(logs: Log[], name: "StabilityPoolAddressSet"): _TypedLogDescription<{ _stabilityPoolAddress: string }>[];
-  extractEvents(logs: Log[], name: "TotalRewardsIssuedUpdated"): _TypedLogDescription<{ _totalLQTYIssued: BigNumber }>[];
+  extractEvents(logs: Log[], name: "TotalLQTYIssuedUpdated"): _TypedLogDescription<{ _totalLQTYIssued: BigNumber }>[];
 }
 
 interface DefaultPoolCalls {
@@ -471,7 +471,7 @@ export interface LQTYStaking
   extractEvents(logs: Log[], name: "EtherSent"): _TypedLogDescription<{ _account: string; _amount: BigNumber }>[];
   extractEvents(logs: Log[], name: "F_ETHUpdated"): _TypedLogDescription<{ _F_ETH: BigNumber }>[];
   extractEvents(logs: Log[], name: "F_LUSDUpdated"): _TypedLogDescription<{ _F_LUSD: BigNumber }>[];
-  extractEvents(logs: Log[], name: "RewardsTokenAddressSet"): _TypedLogDescription<{ _lqtyTokenAddress: string }>[];
+  extractEvents(logs: Log[], name: "LQTYTokenAddressSet"): _TypedLogDescription<{ _lqtyTokenAddress: string }>[];
   extractEvents(logs: Log[], name: "LUSDTokenAddressSet"): _TypedLogDescription<{ _lusdTokenAddress: string }>[];
   extractEvents(logs: Log[], name: "OwnershipTransferred"): _TypedLogDescription<{ previousOwner: string; newOwner: string }>[];
   extractEvents(logs: Log[], name: "StakeChanged"): _TypedLogDescription<{ staker: string; newStake: BigNumber }>[];

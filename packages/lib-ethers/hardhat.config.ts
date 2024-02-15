@@ -74,7 +74,11 @@ const oracleAddresses = {
     chainlink: "0x8A753747A1Fa494EC906cE90E9f37563A8AF630e",
     tellor: "0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0" // Core
   },
-  telos_testnet: {
+  telos_mainnet: {
+    chainlink: "0x9326BFA02ADD2366b30bacB125260Af641031331",
+    tellor: "0x20374E579832859f180536A69093A126Db1c8aE9" // Core
+  },
+  fuse_testnet: {
     chainlink: "0x9326BFA02ADD2366b30bacB125260Af641031331",
     tellor: "0x20374E579832859f180536A69093A126Db1c8aE9" // Core
   },
@@ -93,7 +97,8 @@ const wethAddresses = {
   rinkeby: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
   goerli: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
   kovan: "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
-  telos_testnet: "0xaE85Bf723A9e74d6c663dd226996AC1b8d075AA9"
+  telos_mainnet: "0xD102cE6A4dB07D247fcc28F366A623Df0938CA9E",
+  fuse_testnet: "0x39276e58fa15bAcad2bAb28a25811C015aD8D114"
 };
 
 const hasWETH = (network: string): network is keyof typeof wethAddresses => network in wethAddresses;
@@ -127,8 +132,12 @@ const config: HardhatUserConfig = {
       url: "https://rpc.kiln.themerge.dev",
       accounts: [deployerAccount]
     },
-    telos_testnet: {
+    telos_mainnet: {
       url: "https://testnet.telos.net/evm",
+      accounts: [deployerAccount]
+    },
+    fuse_testnet: {
+      url: "https://rpc.fuse.io",
       accounts: [deployerAccount]
     }
   },

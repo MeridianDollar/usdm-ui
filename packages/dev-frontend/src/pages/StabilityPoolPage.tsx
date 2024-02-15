@@ -32,7 +32,7 @@ const SubmenuItem: CSSProperties = {
 };
 
 export const StabilityPoolPage: React.FC = () => {
-    const [activeTab, setActiveTab] = useState("Stability");
+    const [activeTab, setActiveTab] = useState("Stability Pool");
 
     const handleTabClick = (tabName: string) => {
         setActiveTab(tabName);
@@ -42,7 +42,7 @@ export const StabilityPoolPage: React.FC = () => {
         switch (activeTab) {
             case "Trove":
                 return <Trove />;
-            case "Stability":
+            case "Stability Pool":
                 return <Stability />;
             case "Staking":
                 return <Staking />;
@@ -62,8 +62,8 @@ export const StabilityPoolPage: React.FC = () => {
                         Trove
                     </div>
                     <div
-                        style={{ ...SubmenuItem, color: activeTab === "Stability" ? "#98aec6" : "inherit" }}
-                        onClick={() => handleTabClick("Stability")}
+                        style={{ ...SubmenuItem, color: activeTab === "Stability Pool" ? "#98aec6" : "inherit" }}
+                        onClick={() => handleTabClick("Stability Pool")}
                     >
                         Stability
                     </div>

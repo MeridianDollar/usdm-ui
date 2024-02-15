@@ -33,32 +33,32 @@ module.exports = {
     },
     solidity: {
         compilers: [{
-                version: "0.4.23",
-                settings: {
-                    optimizer: {
-                        enabled: true,
-                        runs: 100
-                    }
+            version: "0.4.23",
+            settings: {
+                optimizer: {
+                    enabled: true,
+                    runs: 100
                 }
-            },
-            {
-                version: "0.5.17",
-                settings: {
-                    optimizer: {
-                        enabled: true,
-                        runs: 100
-                    }
+            }
+        },
+        {
+            version: "0.5.17",
+            settings: {
+                optimizer: {
+                    enabled: true,
+                    runs: 100
                 }
-            },
-            {
-                version: "0.6.11",
-                settings: {
-                    optimizer: {
-                        enabled: true,
-                        runs: 100
-                    }
+            }
+        },
+        {
+            version: "0.6.11",
+            settings: {
+                optimizer: {
+                    enabled: true,
+                    runs: 100
                 }
-            },
+            }
+        },
         ]
     },
     networks: {
@@ -82,10 +82,10 @@ module.exports = {
             gas: 10000000, // tx gas limit
             accounts: [getSecret('RINKEBY_DEPLOYER_PRIVATEKEY', '6110107ee5376c20acadfe82498b4ba93c9fd44a62156e20cfe4563326fd7388')]
         },
-        telos_testnet: {
+        telos_mainnet: {
             url: "https://testnet.telos.net/evm",
             gas: 10000000, // tx gas limit
-            accounts: [getSecret('TELOS_TESTNET_DEPLOYER_PRIVATEKEY', '6110107ee5376c20acadfe82498b4ba93c9fd44a62156e20cfe4563326fd7388')]
+            accounts: [getSecret('telos_mainnet_DEPLOYER_PRIVATEKEY', '6110107ee5376c20acadfe82498b4ba93c9fd44a62156e20cfe4563326fd7388')]
         },
     },
     etherscan: {

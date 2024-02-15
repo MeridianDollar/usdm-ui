@@ -4,7 +4,7 @@ import { Decimal, LiquityStoreState } from "@liquity/lib-base";
 import { useLiquitySelector } from "@liquity/lib-react";
 import { InfoIcon } from "../InfoIcon";
 import { Badge } from "../Badge";
-import { fetchLqtyPrice, fetchMSTPrice } from "./context/fetchLqtyPrice";
+import { fetchLqtyPrice, fetchMSTPrice, fetchTLOSYield } from "./context/fetchLqtyPrice";
 import { useLiquity } from "../../hooks/LiquityContext";
 
 
@@ -22,6 +22,8 @@ export const Yield: React.FC = () => {
   const { lusdInStabilityPool, remainingStabilityPoolLQTYReward } = useLiquitySelector(selector);
 
   const [lqtyPrice, setLqtyPrice] = useState<Decimal | undefined>(undefined);
+  const [tlosYield, setTLOSYield] = useState<String | undefined>(undefined);
+
   const hasZeroValue = remainingStabilityPoolLQTYReward.isZero || lusdInStabilityPool.isZero;
 
   useEffect(() => {
@@ -29,7 +31,10 @@ export const Yield: React.FC = () => {
       try {
         // const { lqtyPriceUSD } = await fetchLqtyPrice();
         const { lqtyPriceUSD } = await fetchMSTPrice();
+        const { TLOSYield } = await fetchTLOSYield();
+        const telosYield = TLOSYield.toString(2)
         setLqtyPrice(lqtyPriceUSD);
+        setTLOSYield(telosYield);
       } catch (error) {
         console.error(error);
       }
@@ -42,12 +47,16 @@ export const Yield: React.FC = () => {
   const lqtyIssuanceOneDayInUSD = lqtyIssuanceOneDay.mul(lqtyPrice);
   const aprPercentage = lqtyIssuanceOneDayInUSD.mulDiv(365 * 100, lusdInStabilityPool);
   const remainingLqtyInUSD = remainingStabilityPoolLQTYReward.mul(lqtyPrice);
+  const baseYield = aprPercentage.toString(2)
+  console.log(baseYield, "YIELD")
+
+  // console.log(tlosYield, baseYield, "Yield")
 
   if (aprPercentage.isZero) return null;
 
   return (
     <Badge>
-      <Text>{collateral === "TLOS" ? "WTLOS" : "MST"}  APR {aprPercentage.toString(2)}%</Text>
+      <Text>{collateral === "TLOS" ? "WTLOS" : "MST"}  APR {collateral === "TLOS" ? tlosYield : baseYield}%</Text>
       <InfoIcon
         tooltip={
           <Card variant="tooltip" sx={{ width: ["220px", "518px"] }}>
@@ -56,6 +65,7 @@ export const Yield: React.FC = () => {
               deposited to the Stability Pool over the next year, not including your {collateral} gains from
               liquidations.
             </Paragraph>
+            {/* }
             <Paragraph sx={{ fontSize: "12px", fontFamily: "monospace", mt: 2 }}>
               ($REWARDS * DAILY_ISSUANCE% / DEPOSITED_USDM) * 365 * 100 ={" "}
               <Text sx={{ fontWeight: "bold" }}> APR</Text>
@@ -66,6 +76,7 @@ export const Yield: React.FC = () => {
               {lusdInStabilityPool.shorten()}) * 365 * 100 =
               <Text sx={{ fontWeight: "bold" }}> {aprPercentage.toString(2)}%</Text>
             </Paragraph>
+              */}
           </Card>
         }
       ></InfoIcon>

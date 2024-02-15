@@ -140,6 +140,8 @@ export class Decimal {
     // (undocumented)
     shorten(): string;
     // (undocumented)
+    shorten_4(decimalPlaces: number): string;
+    // (undocumented)
     sub(subtrahend: Decimalish): Decimal;
     // (undocumented)
     toString(precision?: number): string;
