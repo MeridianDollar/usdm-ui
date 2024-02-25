@@ -113,7 +113,7 @@ export const SystemStats: React.FC<SystemStatsProps> = ({ variant = "info", show
 
   let decimals: number;
 
-  if (collateral === "TLOS") {
+  if (collateral === "TLOS" || collateral === "FUSE") {
     decimals = 4;
   } else {
     decimals = 2;
@@ -161,12 +161,15 @@ export const SystemStats: React.FC<SystemStatsProps> = ({ variant = "info", show
           <Text sx={{ fontSize: 1 }}>&nbsp;({lusdInStabilityPoolPct.toString(1)})</Text>
         </Statistic>
       )}
-      <Statistic
-        name="Staked MST"
-        tooltip="The total amount of MST that is staked for earning fee revenue."
-      >
-        {totalStakedLQTY.shorten()}
-      </Statistic>
+
+      {collateral != "FUSE" && (
+        <Statistic
+          name="Staked MST"
+          tooltip="The total amount of MST that is staked for earning fee revenue."
+        >
+          {totalStakedLQTY.shorten()}
+        </Statistic>
+      )}
       <Statistic
         name="Total Collateral Ratio"
         tooltip={`The ratio of the Dollar value of the entire system collateral at the current ${collateral}:USD price, to the entire system debt.`}

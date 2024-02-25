@@ -105,6 +105,19 @@ export const fetchTLOSYield = async (): Promise<TLOSYieldResponse> => {
 };
 
 
+export interface FUSEYieldResponse {
+  FUSEYield: Decimal;
+}
+
+export const fetchFUSEYield = async (): Promise<FUSEYieldResponse> => {
+  const url = "https://omnidex.bmaa3ajd1gjri.eu-west-2.cs.amazonlightsail.com/fuse_stability_pool_yield";
+  const response = await fetch(url);
+  const data = await response.json();
+  return {
+    FUSEYield: Decimal.from(data)
+  };
+};
+
 
 export interface MSTMcapResponse {
   MstMcapUSD: Decimal;

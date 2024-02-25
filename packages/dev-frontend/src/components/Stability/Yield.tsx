@@ -4,7 +4,7 @@ import { Decimal, LiquityStoreState } from "@liquity/lib-base";
 import { useLiquitySelector } from "@liquity/lib-react";
 import { InfoIcon } from "../InfoIcon";
 import { Badge } from "../Badge";
-import { fetchLqtyPrice, fetchMSTPrice, fetchTLOSYield } from "./context/fetchLqtyPrice";
+import { fetchLqtyPrice, fetchMSTPrice, fetchTLOSYield, fetchFUSEYield } from "./context/fetchLqtyPrice";
 import { useLiquity } from "../../hooks/LiquityContext";
 
 
@@ -23,6 +23,8 @@ export const Yield: React.FC = () => {
 
   const [lqtyPrice, setLqtyPrice] = useState<Decimal | undefined>(undefined);
   const [tlosYield, setTLOSYield] = useState<String | undefined>(undefined);
+  const [fuseYield, setFUSEYield] = useState<String | undefined>(undefined);
+
 
   const hasZeroValue = remainingStabilityPoolLQTYReward.isZero || lusdInStabilityPool.isZero;
 
@@ -32,9 +34,15 @@ export const Yield: React.FC = () => {
         // const { lqtyPriceUSD } = await fetchLqtyPrice();
         const { lqtyPriceUSD } = await fetchMSTPrice();
         const { TLOSYield } = await fetchTLOSYield();
+        const { FUSEYield } = await fetchFUSEYield();
+        
         const telosYield = TLOSYield.toString(2)
+        const fuseYield = FUSEYield.toString(2)
+
         setLqtyPrice(lqtyPriceUSD);
         setTLOSYield(telosYield);
+        setFUSEYield(fuseYield);
+
       } catch (error) {
         console.error(error);
       }
@@ -48,20 +56,17 @@ export const Yield: React.FC = () => {
   const aprPercentage = lqtyIssuanceOneDayInUSD.mulDiv(365 * 100, lusdInStabilityPool);
   const remainingLqtyInUSD = remainingStabilityPoolLQTYReward.mul(lqtyPrice);
   const baseYield = aprPercentage.toString(2)
-  console.log(baseYield, "YIELD")
-
-  // console.log(tlosYield, baseYield, "Yield")
 
   if (aprPercentage.isZero) return null;
 
   return (
     <Badge>
-      <Text>{collateral === "TLOS" ? "WTLOS" : "MST"}  APR {collateral === "TLOS" ? tlosYield : baseYield}%</Text>
+      <Text>{collateral === "TLOS" ? "WTLOS" : collateral === "FUSE" ? "WFUSE" : "MST"}  APR {collateral === "TLOS" ? tlosYield : collateral === "FUSE" ? fuseYield : baseYield}%</Text>
       <InfoIcon
         tooltip={
           <Card variant="tooltip" sx={{ width: ["220px", "518px"] }}>
             <Paragraph>
-              An <Text sx={{ fontWeight: "bold" }}>estimate</Text> of the {collateral === "TLOS" ? "WTLOS" : "MST"} return on the USDM
+              An <Text sx={{ fontWeight: "bold" }}>estimate</Text> of the {collateral === "TLOS" ? "WTLOS" : collateral === "FUSE" ? "WFUSE" :  "MST"} return on the USDM
               deposited to the Stability Pool over the next year, not including your {collateral} gains from
               liquidations.
             </Paragraph>

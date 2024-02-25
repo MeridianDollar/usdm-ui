@@ -8,6 +8,8 @@ import { PriceManager } from "../components/PriceManager";
 import { Staking } from "../components/Staking/Staking";
 import { SystemStats } from "../components/SystemStats";
 import { Approve } from "../components/Farm/views/Approve";
+import { useLiquity } from "../hooks/LiquityContext";
+
 
 
 const PageContainer: CSSProperties = {
@@ -34,6 +36,9 @@ const SubmenuItem: CSSProperties = {
 };
 
 export const TrovePage: React.FC = () => {
+
+    const { collateral } = useLiquity();
+
     const [activeTab, setActiveTab] = useState("Trove");
 
     const handleTabClick = (tabName: string) => {
@@ -67,14 +72,17 @@ export const TrovePage: React.FC = () => {
                         style={{ ...SubmenuItem, color: activeTab === "Stability Pool" ? "#98aec6" : "inherit" }}
                         onClick={() => handleTabClick("Stability Pool")}
                     >
-                        Stability
+                        {collateral === 'FUSE' ? 'Stability Pool' : 'Stability'}
                     </div>
-                    <div
-                        style={{ ...SubmenuItem, color: activeTab === "Staking" ? "#98aec6" : "inherit" }}
-                        onClick={() => handleTabClick("Staking")}
-                    >
-                        Staking
-                    </div>
+
+                    {collateral !== 'FUSE' && (
+                        <div
+                            style={{ ...SubmenuItem, color: activeTab === "Staking" ? "#98aec6" : "inherit" }}
+                            onClick={() => handleTabClick("Staking")}
+                        >
+                            Staking
+                        </div>
+                    )}
                 </div>
             </div>
 

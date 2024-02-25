@@ -8,7 +8,7 @@ import { Icon } from "../components/Icon";
 
 const uniLink = `https://app.uniswap.org/swap?exactField=input&exactAmount=0&outputCurrency=0x2F3b1A07E3eFb1fCc64BD09b86bD0Fa885D93552&chain=base`;
 const swapsicleLink = `https://telos.swapsicle.io/swap?outputCurrency=0x568524DA340579887db50Ecf602Cd1BA8451b243&inputCurrency=0x8D97Cea50351Fb4329d591682b148D43a0C3611b`;
-// `https://app.Uniswap.cc/exchange/swap?inputCurrency=${lusdAddress}&outputCurrency=ETH`;
+const fuseLink = `https://voltage.finance/swap`;
 
 export const RedemptionPage: React.FC = () => {
   const {
@@ -30,8 +30,8 @@ export const RedemptionPage: React.FC = () => {
               </Paragraph>
               <Paragraph sx={{ mt: 2 }}>
                 Most of the time you will get a better rate for converting USDM to {collateral} on{" "}
-                <Link href={collateral === "TLOS" ? swapsicleLink : uniLink} target="_blank">
-                  {collateral === "TLOS" ? "Swapsicle" : "Uniswap"}<Icon name="external-link-alt" size="xs" />
+                <Link href={collateral === "TLOS" ? swapsicleLink : collateral === "FUSE" ? fuseLink : uniLink} target="_blank">
+                  {collateral === "TLOS" ? "Swapsicle" : collateral === "FUSE" ? "Voltage" : "Uniswap"}<Icon name="external-link-alt" size="xs" />
                 </Link>{" "}
                 or other exchanges.
               </Paragraph>
