@@ -20,6 +20,8 @@ import { ActionDescription, Amount } from "../ActionDescription";
 import { ErrorDescription } from "../ErrorDescription";
 import { Approve } from "../../components/Farm/views/Approve";
 import { useLiquity } from "../../hooks/LiquityContext";
+import { useValidationState } from "../Farm/context/useValidationState";
+
 
 
 const init = ({ lqtyStake }: LiquityStoreState) => ({
@@ -122,12 +124,22 @@ const StakingManagerActionDescription: React.FC<StakingManagerActionDescriptionP
 };
 
 export const StakingManager: React.FC = () => {
+
+
+  // const unstakeLQTY = change.unstakeLQTY?.prettify().concat(" ", GT);
+
   const { collateral } = useLiquity();
   const { dispatch: dispatchStakingViewAction } = useStakingView();
   const [{ originalStake, editedLQTY }, dispatch] = useLiquityReducer(reduce, init);
   const lqtyBalance = useLiquitySelector(selectLQTYBalance);
 
   const change = originalStake.whatChanged(editedLQTY);
+
+  console.log(editedLQTY, "EDITED LQTY")
+
+  const { isValid, hasApproved, isWithdrawing, amountChanged } = useValidationState(editedLQTY);
+
+  console.log(isValid, hasApproved, isWithdrawing, amountChanged, "DATA")
   const [validChange, description] = !change
     ? [undefined, undefined]
     : change.stakeLQTY?.gt(lqtyBalance)
@@ -145,6 +157,15 @@ export const StakingManager: React.FC = () => {
 
   const makingNewStake = originalStake.isEmpty;
 
+  let isIncreasing;
+
+  if (change && change.stakeLQTY) {
+    isIncreasing = true; 
+  } else {
+    isIncreasing = false;
+  }
+
+
   return (
     <StakingEditor title={"Staking"} {...{ originalStake, editedLQTY, dispatch }}>
       {description ??
@@ -154,8 +175,9 @@ export const StakingManager: React.FC = () => {
           <ActionDescription>Adjust the {GT} amount to stake or withdraw.</ActionDescription>
         ))}
 
+
       <Flex variant="layout.actions">
-        {makingNewStake && collateral === "TLOS" && (
+        {hasApproved == false && isIncreasing == true && collateral === "TLOS" && (
           <Approve amount={lqtyBalance} />
         )}
         <>
