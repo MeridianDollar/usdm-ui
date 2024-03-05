@@ -4007,10 +4007,10 @@
   dependencies:
     "@types/chai" "*"
 
-"@types/chai-spies@1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@types/chai-spies/-/chai-spies-1.0.3.tgz#a52dc61af3853ec9b80965040811d15dfd401542"
-  integrity sha512-RBZjhVuK7vrg4rWMt04UF5zHYwfHnpk5mIWu3nQvU3AKGDixXzSjZ6v0zke6pBcaJqMv3IBZ5ibLWPMRDL0sLw==
+"@types/chai-spies@1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@types/chai-spies/-/chai-spies-1.0.6.tgz#20ad60f2bc484ced5cbd4a901f3bbfc1225e968e"
+  integrity sha512-xkk4HmhBB9OQeTAifa9MJ+6R5/Rq9+ungDe4JidZD+vqZVeiWZwc2i7/pd1ZKjyGlSBIQePoWdyUyFUGT0rv5w==
   dependencies:
     "@types/chai" "*"
 
@@ -6645,10 +6645,10 @@ chai-bn@^0.2.1:
   resolved "https://registry.yarnpkg.com/chai-bn/-/chai-bn-0.2.1.tgz#1dad95e24c3afcd8139ab0262e9bbefff8a30ab7"
   integrity sha512-01jt2gSXAw7UYFPT5K8d7HYjdXj2vyeIuE+0T/34FWzlNcVbs1JkPxRu7rYMfQnJhrHT8Nr6qjSf5ZwwLU2EYg==
 
-chai-spies@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/chai-spies/-/chai-spies-1.0.0.tgz#d16b39336fb316d03abf8c375feb23c0c8bb163d"
-  integrity sha512-elF2ZUczBsFoP07qCfMO/zeggs8pqCf3fZGyK5+2X4AndS8jycZYID91ztD9oQ7d/0tnS963dPkd0frQEThDsg==
+chai-spies@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/chai-spies/-/chai-spies-1.1.0.tgz#a6c270bc708c70716fed667d771f910902a5fb31"
+  integrity sha512-ikaUhQvQWchRYj2K54itFp3nrcxaFRpSDQxDlRzSn9aWgu9Pi7lD8yFxTso4WnQ39+WZ69oB/qOvqp+isJIIWA==
 
 chai@4.3.4, chai@^4.2.0:
   version "4.3.4"
