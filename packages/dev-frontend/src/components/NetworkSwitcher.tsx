@@ -5,6 +5,23 @@ import { ethers } from 'ethers';
 import Select from 'react-select';
 import { useLiquity } from "../hooks/LiquityContext";
 
+export async function SwitchNetwork(newNetwork){
+  try {
+    if (window.ethereum) {
+      await (window as any).ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: newNetwork }],
+      });
+      const updatedProvider = new ethers.providers.Web3Provider(window.ethereum);
+
+      const currentNetworkId = await updatedProvider.send('eth_chainId');
+      console.log(`Current network ID: ${currentNetworkId}`);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 function NetworkSwitcher() {
   const [selectedNetwork, setSelectedNetwork] = useState(); // Default to Base Mainnet
   const [availableNetworks, setAvailableNetworks] = useState([
@@ -36,7 +53,7 @@ function NetworkSwitcher() {
       }
     }
 
-    changeNetwork();
+    SwitchNetwork(selectedNetwork);
   }, [selectedNetwork]);
 
   const handleNetworkChange = (selectedOption) => {

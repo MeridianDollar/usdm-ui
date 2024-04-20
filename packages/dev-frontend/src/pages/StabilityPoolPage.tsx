@@ -55,31 +55,6 @@ export const StabilityPoolPage: React.FC = () => {
 
     return (
         <Container>
-            <div style={PageContainer}>
-                <div style={Submenu}>
-                    <div
-                        style={{ ...SubmenuItem, color: activeTab === "Trove" ? "#98aec6" : "inherit" }}
-                        onClick={() => handleTabClick("Trove")}
-                    >
-                        Trove
-                    </div>
-
-                    <div
-                        style={{ ...SubmenuItem, color: activeTab === "Stability Pool" ? "#98aec6" : "inherit" }}
-                        onClick={() => handleTabClick("Stability Pool")}
-                    >
-                        {collateral === 'FUSE' ? 'Stability Pool' : 'Stability'}
-                    </div>
-                    {collateral !== 'FUSE' && (
-                        <div
-                            style={{ ...SubmenuItem, color: activeTab === "Staking" ? "#98aec6" : "inherit" }}
-                            onClick={() => handleTabClick("Staking")}
-                        >
-                            Staking
-                        </div>
-                    )}
-                </div>
-            </div>
             <Container variant="center">
                 {renderContent()}
             </Container>

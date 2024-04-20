@@ -23,28 +23,30 @@ export const Header: React.FC = ({ children }) => {
   const isFrontendRegistered = frontendTag === AddressZero || frontend.status === "registered";
 
   return (
-    <Container variant="header">
-      <Flex sx={{ alignItems: "center", flex: 1 }}>
-        <LiquityLogo sx={{ height: logoHeight, width: "130px", marginLeft: "-35px", marginTop: "-12px" }} /> {/* Adjust the marginTop as needed */}
+    <>
+      <Container variant="header" style={{ position: "relative", zIndex: 1010}}>
+        <Flex sx={{ alignItems: "center", flex: 1 }}>
+          <LiquityLogo sx={{ height: logoHeight, width: "130px", marginLeft: "-35px", marginTop: "-12px", position: 'relative', zIndex: 1005 }} /> {/* Adjust the marginTop as needed */}
 
-        <Box
-          sx={{
-            mx: [0, 2],
-            width: "0px",
-            height: "100%",
-            borderLeft: ["none", "1px solid lightgrey"]
-          }}
-        />
+          <Box
+            sx={{
+              mx: [0, 2],
+              width: "0px",
+              height: "100%",
+              borderLeft: ["none", "1px solid lightgrey"]
+            }}
+          />
+        </Flex>
         {isFrontendRegistered && (
-          <>
-            <SideNav />
-            <Nav />
-          </>
+          <Nav />
         )}
-      </Flex>
 
-      {children}
-    </Container>
+        {children}
+      </Container>
+      {isFrontendRegistered && (
+          <SideNav  />
+      )}
+    </>
   );
 };
 

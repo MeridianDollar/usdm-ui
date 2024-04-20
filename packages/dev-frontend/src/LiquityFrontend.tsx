@@ -12,7 +12,8 @@ import { UserAccount } from "./components/UserAccount";
 import { SystemStatsPopup } from "./components/SystemStatsPopup";
 import { Header } from "./components/Header";
 
-import { PageSwitcher } from "./pages/PageSwitcher";
+import Sidebar from "./components/Sidebar/Sidebar";
+import PageSwitcher from "./components/PageSwitcher/PageSwitcher";
 import { Farm } from "./pages/Farm";
 import { RiskyTrovesPage } from "./pages/RiskyTrovesPage";
 import { RedemptionPage } from "./pages/RedemptionPage";
@@ -29,7 +30,7 @@ type LiquityFrontendProps = {
   loader?: React.ReactNode;
 };
 export const LiquityFrontend: React.FC<LiquityFrontendProps> = ({ loader }) => {
-  const { collateral, account, provider, liquity } = useLiquity();
+  const { collateral, account, provider, liquity, chainId } = useLiquity();
   // For console tinkering ;-)
   Object.assign(window, {
     account,
@@ -48,12 +49,16 @@ export const LiquityFrontend: React.FC<LiquityFrontendProps> = ({ loader }) => {
           <StabilityViewProvider>
             <StakingViewProvider>
               <FarmViewProvider>
-                <Flex sx={{ flexDirection: "column", minHeight: "100%" }}>
-                  <Header>
-                    <UserAccount />
-                    <SystemStatsPopup />
-                  </Header>
-
+                <Flex sx={{ flexDirection: "column", minHeight: "100%", position: "relative"}}>
+                  <div style={{ position: "relative", zIndex: 1010 }}>
+                    <Header>
+                      <UserAccount />
+                      <SystemStatsPopup />
+                    </Header>
+                  </div> 
+                  {/*
+                  <Sidebar chainId={chainId} />
+  */}
                   <Container
                     variant="main"
                     sx={{
@@ -63,6 +68,8 @@ export const LiquityFrontend: React.FC<LiquityFrontendProps> = ({ loader }) => {
                       alignItems: "center"
                     }}
                   >
+                    <PageSwitcher/>
+                    <Flex sx={{width: "100%", marginLeft:  ['0px', '100px'], marginRight:  ['0px', '20px', '100px']}}>
                     <Switch>
                       <Route path="/" exact>
                         <TrovePage />
@@ -89,6 +96,7 @@ export const LiquityFrontend: React.FC<LiquityFrontendProps> = ({ loader }) => {
                         <StatsPage />
                       </Route>
                     </Switch>
+                    </Flex>
                   </Container>
                 </Flex>
               </FarmViewProvider>

@@ -20,6 +20,7 @@ type LiquityContextValue = {
   provider: Provider;
   liquity: EthersLiquityWithStore<BlockPolledLiquityStore>;
   collateral?: string; // Add "word" property with an optional string type
+  chainId: number; // JJ
 
 };
 
@@ -96,7 +97,7 @@ export const LiquityProvider: React.FC<LiquityProviderProps> = ({
   liquity.store.logging = true;
 
   return (
-    <LiquityContext.Provider value={{ config, account, provider, liquity, collateral }}> {/* Add "word" to the context value */}
+    <LiquityContext.Provider value={{ config, account, provider, liquity, collateral, chainId }}> {/* Add "word" to the context value */}
       {children}
     </LiquityContext.Provider>
   );

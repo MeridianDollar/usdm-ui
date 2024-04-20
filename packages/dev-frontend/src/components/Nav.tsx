@@ -18,15 +18,7 @@ export const Nav: React.FC = () => {
 
   return (
     <Box as="nav" sx={{ display: ["none", "flex"], alignItems: "center", flex: 1 }}>
-      <Flex>
-        <Link to="/">Mint</Link>
-        <Link to="/redemption">Redemption</Link>
-        <Link to="/risky-troves">Risky Troves</Link>
-        <Link to="https://lend.meridianfinance.net">Lend</Link>
-        <Link to="https://stake.meridianfinance.net">Stake</Link>
-        <Link to="https://bridge.meridianfinance.net">Bridge</Link>
-        {collateral === 'ETH' ? <Link to="https://trade.meridianfinance.net/#/trade">Trade</Link> : null}
-      </Flex>
+
       <Flex sx={{ justifyContent: "flex-end", mr: 3, flex: 1 }}>
         <div>
           <NetworkSwitcher />
