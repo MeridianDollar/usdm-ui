@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory, useLocation   } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import './Sidebar.css'; // Import CSS for styling
 import menuConfig, { MenuItemConfig, SubMenuItemConfig } from "./SidebarConfig";
-import {SwitchNetwork} from '../NetworkSwitcher';
+import { SwitchNetwork } from '../NetworkSwitcher';
 
 interface SidebarProps {
     chainId: number;
@@ -14,33 +14,33 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
     const [activeSubMenu, setActiveSubMenu] = useState<string | null>(null);
     const [activeSubSubMenu, setActiveSubSubMenu] = useState<string | null>(null);
     const history = useHistory();
-  
+
     const toggleExpandOpen = () => {
-      setIsExpanded(true);
+        setIsExpanded(true);
     };
     const toggleExpandClose = () => {
-      setIsExpanded(false);
+        setIsExpanded(false);
     };
 
     useEffect(() => {
         // Function to determine initial expand state based on screen size
         const handleResize = () => {
-          const isSmallScreen = window.innerWidth < 768; // Define "small screen" as less than 768px
-          setIsExpanded(isSmallScreen);
-        };    
-        handleResize();    
-      }, []);
+            const isSmallScreen = window.innerWidth < 768; // Define "small screen" as less than 768px
+            setIsExpanded(isSmallScreen);
+        };
+        handleResize();
+    }, []);
 
     const handleItemClick = async (chainId: number, targetChainId: number, path: string, isSubSubMenu: boolean) => {
-        if(chainId != targetChainId && targetChainId != 0){ // change networks if required
+        if (chainId != targetChainId && targetChainId != 0) { // change networks if required
             let newPath = path
-            if (isSubSubMenu) {                
-                const hashPath = window.location.hash; 
+            if (isSubSubMenu) {
+                const hashPath = window.location.hash;
                 const basePath = hashPath.split('/')[0];
                 newPath = `#${basePath.replace(/^#/, '')}${path.slice(1)}`;
             }
             try {
-                const newChainName = await SwitchNetwork("0x" + targetChainId.toString(16)) 
+                const newChainName = await SwitchNetwork("0x" + targetChainId.toString(16))
                 // if (newChainName === "Telos") { // getChainName(targetChainId)) {
                 window.location.href = newPath;
                 // }
@@ -48,37 +48,37 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                 console.error('Error switching network:', error);
             }
         } else {
-            if(targetChainId === 0){
+            if (targetChainId === 0) {
                 window.open(path, '_blank');
             } else {
-                if(isSubSubMenu){
+                if (isSubSubMenu) {
                     history.push(path);
                 } else {
                     window.location.href = path
                 }
             }
         }
-    }; 
+    };
 
     const handleMenuItemClick = async (isExpanded: boolean, chainId: number, targetChainId: number, item: MenuItemConfig) => {
         const mediaQuery = window.matchMedia('(max-width: 768px)');
         if (mediaQuery.matches && (item.subMenu || !isExpanded)) { // on small screen open submenus if available
             toggleExpandOpen()
-            setActiveSubMenu(activeSubMenu === item.title ? null : item.title); 
+            setActiveSubMenu(activeSubMenu === item.title ? null : item.title);
         } else {
             handleItemClick(chainId, targetChainId, item.path, false)
         }
-    }; 
+    };
 
     const handleArrowClick = (item: MenuItemConfig) => {
         if (item.subMenu) {
-            setActiveSubMenu(activeSubMenu === item.title ? null : item.title);      
+            setActiveSubMenu(activeSubMenu === item.title ? null : item.title);
         };
     }
 
     const handleSubArrowClick = (subItem: SubMenuItemConfig) => {
         if (subItem.subSubMenu) {
-            setActiveSubSubMenu(activeSubSubMenu === subItem.name ? null : subItem.name);      
+            setActiveSubSubMenu(activeSubSubMenu === subItem.name ? null : subItem.name);
         };
     }
 
@@ -107,7 +107,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                                             {subItem.name}
                                         </span>
                                         {subItem.subSubMenu && (
-                                            <span className="submenu-arrow" onClick={() => handleSubArrowClick(subItem)}>
+                                            <span className={`submenu-arrow ${activeSubSubMenu === subItem.name ? 'submenu-arrow-active' : ''}`} onClick={() => handleSubArrowClick(subItem)}>
                                                 {activeSubSubMenu === subItem.name ? "▼" : "▶"}
                                             </span>
                                         )}

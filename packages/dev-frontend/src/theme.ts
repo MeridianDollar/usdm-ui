@@ -1,8 +1,8 @@
 import { Theme, ThemeUIStyleObject } from "theme-ui";
 
 const baseColors = {
-  blue: "#1c4f87",
-  purple: "#2c598a",
+  blue: "#2a375e",
+  purple: "#364575",
   cyan: "#2eb6ea",
   green: "#28c081",
   yellow: "#fd9d28",
@@ -22,7 +22,7 @@ const colors = {
   info: baseColors.blue,
   invalid: "pink",
 
-  text: "#293147",
+  text: "#353535",
   background: "#FAFAFA",
   muted: "#eaebed"
 };
@@ -95,8 +95,8 @@ const infoCard: ThemeUIStyleObject = {
 
   padding: 3,
 
-  borderColor: "rgba(122,199,240,0.4)",
-  background: "linear-gradient(200deg, #d4d9fc, #cae9f9)",
+  borderColor: "#ffffff",
+  background: "linear-gradient(200deg, #ffffff, #ebebeb)",
 
   h2: {
     mb: 2,
@@ -255,7 +255,7 @@ const theme: Theme = {
       padding: 0,
 
       borderColor: "muted",
-      bg: "#c0d3dfff",
+      bg: "#ffffff",
 
       "> h2": {
         display: "flex",

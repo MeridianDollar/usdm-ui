@@ -110,7 +110,7 @@ const App = () => {
     <EthersWeb3ReactProvider>
       <ThemeProvider theme={theme}>
         <div style={{
-          background: "radial-gradient(circle, #7690c0 20%, #62789c 50%, #5f759b 100%)",
+          background: "radial-gradient(circle, #f1f1f3 20%, #f1f1f3 50%, #f1f1f3 100%)",
           minHeight: "100vh"
         }}>
           <WalletConnector loader={loader}>

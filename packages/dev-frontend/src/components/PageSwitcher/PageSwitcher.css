@@ -1,38 +1,40 @@
 .page-switcher-container {
-    display: flex;
-    justify-content: center; /* Horizontally center the .page-switcher */
-    padding-top: 40px;
-    padding-bottom: 20px;
-  }
-  
-.page-switcher {
-    display: flex;
-    max-width: 350px;
-    justify-content: center;
-    background: #4f6281;
-    border-radius: 10px;
-  }
-  
-  .page-switcher-button {
-    display: flex;
-    align-items: center; /* Vertically center the text */
-    justify-content: center;
-    padding: 0.25rem;
-    width: 8rem;
-    height: fit-content;
-    text-decoration: none;
-    color: white;
-    font-size: 1.25rem;
-  }
-  
-  .page-switcher-button.active {
-    background-color: #293147;
-    color: white;
-  }
+  display: flex;
+  justify-content: center;
+  /* Horizontally center the .page-switcher */
+  padding-top: 40px;
+  padding-bottom: 20px;
+}
 
-  .page-switcher-button.active:first-child {
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+.page-switcher {
+  display: flex;
+  max-width: 350px;
+  justify-content: center;
+  background: #364575;
+  border-radius: 10px;
+}
+
+.page-switcher-button {
+  display: flex;
+  align-items: center;
+  /* Vertically center the text */
+  justify-content: center;
+  padding: 0.25rem;
+  width: 8rem;
+  height: fit-content;
+  text-decoration: none;
+  color: white;
+  font-size: 1.25rem;
+}
+
+.page-switcher-button.active {
+  background-color: #293147;
+  color: white;
+}
+
+.page-switcher-button.active:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 
 .page-switcher-button.active:last-child {
@@ -40,22 +42,21 @@
   border-bottom-right-radius: 10px;
 }
 
-  .page-switcher-button:hover {
-    background-color: #cccfd4;
-    color: #293147;
-  }
+.page-switcher-button:hover {
+  background-color: #49598d;
+  color: #ffffff;
+}
 
-  .page-switcher-button:hover:first-child {
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-  }
+.page-switcher-button:hover:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
 
-  .page-switcher-button:hover:last-child {
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-  }
-  
-  .page-switcher-buttonselected {
-    background-color: lightblue;
-  }
-  
+.page-switcher-button:hover:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.page-switcher-buttonselected {
+  background-color: lightblue;
+}
