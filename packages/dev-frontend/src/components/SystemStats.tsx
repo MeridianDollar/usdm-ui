@@ -186,10 +186,7 @@ export const SystemStats: React.FC<SystemStatsProps> = ({ variant = "info", show
         name="MST Price"
         tooltip={
           <>
-            Price of MST trading on{" "}
-            <Link href="https://app.uniswap.org/#/swap?exactField=input&exactAmount=10&outputCurrency=0x2F3b1A07E3eFb1fCc64BD09b86bD0Fa885D93552" target="_blank" rel="noopener noreferrer">
-              Uniswap
-            </Link>
+            Average price of MST across all supported exchanges
           </>
         }
       >

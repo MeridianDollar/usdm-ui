@@ -21,36 +21,36 @@ class ModelParams:
 # time series data 
 class Data:
     def __init__(self):
-        self.ETH_price = [500.0]
+        self.TLOS_price = [0.1]
         self.momentum = [0.0]
         self.base_fee = [0.0]
         self.redeemed_amount = [0.0]
         self.token_price = [1.0]
-        self.token_demand = [100.0]
-        self.trove_issuance = [100.0]
-        self.token_supply = [100.0]
-        self.innate_token_demand = 100.0
+        self.token_demand = [0.02]
+        self.trove_issuance = [0.02]
+        self.token_supply = [0.02]
+        self.innate_token_demand = 0.02
   
         
 ### Functions
-def get_new_momentum(data, params, ETH_price):
+def get_new_momentum(data, params, TLOS_price):
     lookback = params.lookback
     if lookback == 0:
         return 0
 
     ETH_price_past = get_past_ETH_price(data, params)
 
-    new_momentum = (ETH_price - ETH_price_past) /  ETH_price_past
+    new_momentum = (TLOS_price - ETH_price_past) /  ETH_price_past
     return new_momentum
 
 def get_past_ETH_price(data, params):
-    length = len(data.ETH_price)
+    length = len(data.TLOS_price)
     
     ETH_price_past = None
     if (params.lookback > length):
-        ETH_price_past = data.ETH_price[0]
+        ETH_price_past = data.TLOS_price[0]
     else:
-        ETH_price_past = data.ETH_price[length - params.lookback - 1]
+        ETH_price_past = data.TLOS_price[length - params.lookback - 1]
 
     if ETH_price_past == 0:
         return 1
@@ -81,7 +81,7 @@ def get_new_base_fee(data, redeemed_amount):
 # - trader needs for liquidity
 # - 
 def get_innate_token_demand():
-    return 100.0
+    return 0.02
 
 # compute price based on setting token supply = trove demand, and clearing the market
 def get_new_token_price(data, params, redeemed_amount, momentum):
@@ -168,19 +168,19 @@ data = Data() # initialize data timeseries
 
 for i in range(1, 100):
     # update exogenous ETH price
-    last_ETH_price =  data.ETH_price[-1]
+    last_ETH_price =  data.TLOS_price[-1]
 
-    # ETH_price = last_ETH_price
-    # ETH_price = randomwalk_ETH_price(last_ETH_price)
-    # ETH_price = oscillating_ETH_price(500, 10, i)
-    # ETH_price = quadratic_ETH_price(10, i)
-    # ETH_price = linear_increasing_ETH_price(last_ETH_price, 100)
-    # ETH_price = linear_decreasing_ETH_price(last_ETH_price, 1)
-    ETH_price = sublinear_ETH_price(last_ETH_price, 10, i)
+    # TLOS_price = last_ETH_price
+    TLOS_price = randomwalk_ETH_price(last_ETH_price)
+    # TLOS_price = oscillating_ETH_price(500, 10, i)
+    # TLOS_price = quadratic_ETH_price(10, i)
+    # TLOS_price = linear_increasing_ETH_price(last_ETH_price, 100)
+    # TLOS_price = linear_decreasing_ETH_price(last_ETH_price, 1)
+    # TLOS_price = sublinear_ETH_price(last_ETH_price, 10, i)
     
-    # print(ETH_price)
+    # print(TLOS_price)
 
-    momentum = get_new_momentum(data, params, ETH_price)
+    momentum = get_new_momentum(data, params, TLOS_price)
     redeemed_amount = get_new_redeemed_amount(data, params)
     base_fee = get_new_base_fee(data, redeemed_amount)
 
@@ -195,7 +195,7 @@ for i in range(1, 100):
     
     # display all new data
     print(f'step: {i}')
-    print(f'ETH price: {ETH_price}')
+    print(f'ETH price: {TLOS_price}')
     print(f'momentum: {momentum}')
     print(f'redeemed amount: {redeemed_amount}')
     print(f'base fee: {base_fee}')
@@ -205,7 +205,7 @@ for i in range(1, 100):
     print(f'token_supply: {token_supply}')
 
     # update all time series
-    data.ETH_price.append(ETH_price)
+    data.TLOS_price.append(TLOS_price)
     data.momentum.append(momentum)
     data.redeemed_amount.append(redeemed_amount)
     data.base_fee.append(base_fee)
@@ -233,7 +233,7 @@ plt.plot(data.redeemed_amount)
 
 ax3 = fig.add_subplot(223)
 ax3.set_title('ETH Price')
-plt.plot(data.ETH_price)
+plt.plot(data.TLOS_price)
 
 ax4 = fig.add_subplot(224)
 ax4.set_title('Base Fee')

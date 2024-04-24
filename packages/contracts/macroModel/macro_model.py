@@ -237,7 +237,9 @@ def open_troves(troves, index1, price_LUSD_previous):
     new_row = {"Ether_Price": price_ether_current, "Ether_Quantity": quantity_ether, 
                "CR_initial": CR_ratio, "Supply": supply_trove, 
                "Rational_inattention": rational_inattention, "CR_current": CR_ratio}
-    troves = troves.append(new_row, ignore_index=True)
+    new_row_df = pd.DataFrame([new_row])  # The [new_row] wraps the dict in a list, creating a single-row DataFrame
+    troves = pd.concat([troves, new_row_df], ignore_index=True)
+
 
   return[troves, number_opentroves, issuance_LUSD_open]
 
@@ -290,7 +292,9 @@ def price_stabilizer(troves, index, data, stability_pool, n_open):
 
     new_row = {"Ether_Price": price_ether_current, "Ether_Quantity": quantity_ether, "CR_initial": CR_ratio,
                "Supply": supply_trove, "Rational_inattention": rational_inattention, "CR_current": CR_ratio}
-    troves = troves.append(new_row, ignore_index=True)
+    
+    new_row_df = pd.DataFrame([new_row])  # The [new_row] wraps the dict in a list, creating a single-row DataFrame
+    troves = pd.concat([troves, new_row_df], ignore_index=True)
     price_LUSD_current = 1.1 + rate_issuance
     #missing in the previous version  
     liquidity_pool = supply_wanted-stability_pool
@@ -374,10 +378,10 @@ troves= pd.DataFrame({"Ether_Price":[], "Ether_Quantity":[], "CR_initial":[],
 result_open = open_troves(troves, 0, data['Price_LUSD'][0])
 troves = result_open[0]
 issuance_LUSD_open = result_open[2]
-data.loc[0,'issuance_fee'] = issuance_LUSD_open * initials["Price_LUSD"][0]
-data.loc[0,'supply_LUSD'] = troves["Supply"].sum()
-data.loc[0,'liquidity'] = 0.5*troves["Supply"].sum()
-data.loc[0,'stability'] = 0.5*troves["Supply"].sum()
+data.loc[0, 'issuance_fee'] = int(issuance_LUSD_open * initials["Price_LUSD"][0])
+data.loc[0, 'supply_LUSD'] = int(troves["Supply"].sum())
+data.loc[0, 'liquidity'] = int(0.5 * troves["Supply"].sum())
+data.loc[0, 'stability'] = int(0.5 * troves["Supply"].sum())
 
 #Simulation Process
 for index in range(1, n_sim):
@@ -442,6 +446,7 @@ for index in range(1, n_sim):
   n_troves = troves.shape[0]
   supply_LUSD = troves['Supply'].sum()
   if index >= month:
+    
     price_LQTY.append(price_LQTY_current)
 
   new_row = {"Price_LUSD":float(price_LUSD_current), "Price_Ether":float(price_ether_current), "n_open":float(n_open), "n_close":float(n_close), 
@@ -451,7 +456,10 @@ for index in range(1, n_sim):
              "airdrop_gain":float(airdrop_gain), "liquidation_gain":float(liquidation_gain), "return_stability":float(return_stability), 
              "annualized_earning":float(annualized_earning), "MC_LQTY":float(MC_LQTY_current), "price_LQTY":float(price_LQTY_current)
              }
-  data = data.append(new_row, ignore_index=True)
+  
+  new_row_df = pd.DataFrame([new_row])
+  data = pd.concat([data, new_row_df], ignore_index=True)
+
   if price_LUSD_current < 0:
     break
 
@@ -654,10 +662,10 @@ troves2= pd.DataFrame({"Ether_Price":[], "Ether_Quantity":[], "CR_initial":[],
 result_open = open_troves(troves2, 0, data2['Price_LUSD'][0])
 troves2 = result_open[0]
 issuance_LUSD_open = result_open[2]
-data2.loc[0,'issuance_fee'] = issuance_LUSD_open * initials["Price_LUSD"][0]
-data2.loc[0,'supply_LUSD'] = troves2["Supply"].sum()
-data2.loc[0,'liquidity'] = 0.5*troves2["Supply"].sum()
-data2.loc[0,'stability'] = 0.5*troves2["Supply"].sum()
+data.loc[0, 'issuance_fee'] = int(issuance_LUSD_open * initials["Price_LUSD"][0])
+data.loc[0, 'supply_LUSD'] = int(troves["Supply"].sum())
+data.loc[0, 'liquidity'] = int(0.5 * troves["Supply"].sum())
+data.loc[0, 'stability'] = int(0.5 * troves["Supply"].sum())
 
 #Simulation Process
 for index in range(1, n_sim):
