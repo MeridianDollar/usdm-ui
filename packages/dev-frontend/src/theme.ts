@@ -340,8 +340,8 @@ const theme: Theme = {
       top: 0,
       zIndex: 1,
 
-      px: [2, "12px", "12px", 5],
-      py: [2, "12px", "12px"],
+      px: [1, 1, 1, 1],
+      py: [2, 2,2],
 
       ...headerGradient,
       boxShadow: [1, "none"]

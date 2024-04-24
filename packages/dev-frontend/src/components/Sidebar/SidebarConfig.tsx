@@ -1,5 +1,5 @@
 import { IconType } from "react-icons";
-import { FaCoins, FaHandshake, FaChartLine, FaArchway, FaSeedling, FaBitcoin, FaHandHoldingUsd, FaBookReader, FaEllipsisH  } from "react-icons/fa";
+import { FaRegChartBar, FaCoins, FaHandshake, FaChartLine, FaArchway, FaSeedling, FaDollarSign, FaArrowAltCircleUp, FaBookReader, FaEllipsisH  } from "react-icons/fa";
 
 const BASE_MAINNET = 8453
 const FUSE_MAINNET = 122
@@ -84,31 +84,32 @@ const menuConfig: MenuItemConfig[] = [
   { icon: FaArchway,
     title: "Bridge MST",
     path: "https://bridge.meridianfinance.net/#/", },
-  { icon: FaBitcoin,
+  { icon: FaArrowAltCircleUp,
     title: "Buy MST",
-    path: "",
-    subMenu: [
-      {networkId: BASE_MAINNET, name: "Base/Uniswap", path: "https://app.uniswap.org/swap?exactField=input&exactAmount=0&outputCurrency=0x2F3b1A07E3eFb1fCc64BD09b86bD0Fa885D93552&inputCurrency=0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913&chain=base"},
-      {networkId: FUSE_MAINNET, name: "Fuse/Voltage", path: "https://voltage.finance/swap?outputCurrency=0x2363Df84fDb7D4ee9d4E1A15c763BB6b7177eAEe"},
-      {networkId: METER_MAINNET, name: "Meter", path: ""},
-      {networkId: TELOS_MAINNET, name: "Telos/Swapsicle", path: "https://telos.swapsicle.io/swap?outputCurrency=0x568524DA340579887db50Ecf602Cd1BA8451b243&inputCurrency=0x8D97Cea50351Fb4329d591682b148D43a0C3611b"},
-    ] },
-  { icon: FaHandHoldingUsd, 
+    path: "https://stake.meridianfinance.net/#/tokens/", },
+  { icon: FaDollarSign, 
     title: "Buy USDM",
-    path: "",
-    subMenu: [
-      {networkId: BASE_MAINNET, name: "Base/Uniswap", path: "https://app.uniswap.org/swap?exactField=input&exactAmount=0&outputCurrency=0x5e06eA564efcB3158a85dBF0B9E017cb003ff56f&inputCurrency=0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913&chain=base"},
-      {networkId: FUSE_MAINNET, name: "Fuse/Voltage", path: "https://voltage.finance/swap?outputCurrency=0x4447863cddABbF2c3dAC826f042e03c91927A196"},
-      {networkId: METER_MAINNET, name: "Meter", path: ""},
-      {networkId: TELOS_MAINNET, name: "Telos/Swapsicle", path: "https://telos.swapsicle.io/swap?outputCurrency=0x8f7D64ea96D729EF24a0F30b4526D47b80d877B9&inputCurrency=0x8D97Cea50351Fb4329d591682b148D43a0C3611b"},
-    ] },
+    path: "https://stake.meridianfinance.net/#/tokens/",},
+  { icon: FaRegChartBar, 
+    title: "Analytics",
+    path: "https://stake.meridianfinance.net/#/yields",},
   { icon: FaEllipsisH , 
     title: "More",
     path: "",
     subMenu: [
-      {networkId: 0, name: "Tokens", path: "https://www.meridianfinance.net/tokens/"},
+      {networkId: 0, name: "Tokens", path: "https://stake.meridianfinance.net/#/tokens/"},
+      {networkId: 0, name: "Ecosystem", path: "https://stake.meridianfinance.net/#/ecosystem/"},
       {networkId: 0, name: "Docs", path: "https://docs.meridianfinance.net/"},
       {networkId: 0, name: "Github", path: "https://github.com/MeridianDollar"},
+      {networkId: 0, name: "Tools", path: "",
+      subSubMenu:[
+        {name: "Gas Top-up", path: "https://www.gas.zip/"},
+        {name: "Base Explorer", path: "https://basescan.org/"},
+        {name: "Fuse Explorer", path: "https://explorer.fuse.io/"},
+        {name: "Meter Explorer", path: "https://scan.meter.io/"},
+        {name: "Telos Explorer", path: "https://www.teloscan.io/"},
+        ]
+      },
     ] },
 ];
 

@@ -24,19 +24,18 @@ export const Header: React.FC = ({ children }) => {
 
   return (
     <>
-      <Container variant="header" style={{ position: "relative", zIndex: 1010}}>
-        <Flex sx={{ alignItems: "center", flex: 1 }}>
-          <LiquityLogo sx={{ height: logoHeight, width: "130px", marginLeft: "-35px", marginTop: "-12px", position: 'relative', zIndex: 1005 }} /> {/* Adjust the marginTop as needed */}
-
-          <Box
-            sx={{
-              mx: [0, 2],
-              width: "0px",
-              height: "100%",
-              borderLeft: ["none", "1px solid lightgrey"]
-            }}
-          />
-        </Flex>
+      <Container variant="header" style={{ position: "relative", zIndex: 1010, boxShadow: "0 8px 9px -3px rgba(51, 51, 51, 0.3)"}}>
+      <Flex sx={{ alignItems: "flexStart", flex: 1, position: 'relative' }}>
+    <LiquityLogo sx={{
+        height: logoHeight,
+        width: "130px",
+        position: 'absolute',  // Change position to absolute
+        left: '0',           // Set left to 15px
+        top: '50%',             // Center vertically
+        transform: 'translateY(-50%)', // Adjust vertical centering
+        zIndex: 1005
+    }} />
+</Flex>
         {isFrontendRegistered && (
           <Nav />
         )}
