@@ -13,8 +13,8 @@
   justify-content: flex-start;
   align-items: center;
   cursor: pointer;
-  overflow: hidden;
-  /* Hide overflow when collapsed */
+  overflow-y: auto;
+  overflow-x: hidden;
   transition: width 0.3s ease;
   /* Add transition for smooth width change */
 }
@@ -24,6 +24,9 @@
   left: 0;
   top: 60px;
   width: 195px;
+  max-height: calc(100vh - 60px);
+  overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -63,19 +66,9 @@
   padding: 3px;
 }
 
-/* Default arrow color for submenu and sub-submenu */
-.submenu-arrow {
-  color: #ffffff; /* Default color for submenu arrows */
-}
-
-/* Active arrow color for submenu and sub-submenu */
-.submenu-arrow-active {
-  color: rgb(176, 176, 176); /* Change to your desired active color, e.g., red */
-}
-
 .sidebar-menu-item:hover {
   background: #cccfd4 !important;
-  border-radius: 0.4rem;
+  border-radius: 0.4em;
   opacity: 1;
   color: #293147;
   justify-content: flex-start !important;
@@ -87,80 +80,78 @@
 }
 
 .menu-title {
-  font-size: 1rem;
+  font-size: 1em;
   font-weight: bolder;
-  display: none;
-  /* Initially hidden */
-  margin-left: 15px;
-  /* Add space between icon and text */
+  display: none; /* Initially hidden */
+  margin-left: 15px; /* Add space between icon and text */
 }
 
 .icon-bar.expanded .menu-title {
-  display: inline-block;
-  /* Display when expanded */
+  display: inline-block; /* Display when expanded */
 }
 
 .arrow {
-  margin-left: auto;
+  margin-left: auto; 
   cursor: pointer;
 }
 
 .submenu-arrow {
-  margin-left: 12px;
+  margin-left: 12px; 
   font-size: smaller;
   cursor: pointer;
+  padding-right: 20px;
 }
 
 .sub-menu {
   display: flex;
-  flex-direction: column;
-  /* Display submenu items vertically */
-  max-width: 150px;
+  flex-direction: column; /* Display submenu items vertically */
+  max-width: 185px;
 }
 
-.icon-bar.expanded .sub-menu {
+.submenu-title-container {
   display: flex;
-  flex-direction: column;
-}
-
-.submenu-title {
-  font-size: 1.1rem;
+  flex-direction: row;
+  justify-content: space-between;
   color: white;
-  padding: 5px;
-  margin-left: 40px;
-  /* Add space between icon and text */
 }
 
-.submenu-title:hover {
+.submenu-title-container:hover {
   background: #cccfd4 !important;
-  border-radius: 0.4rem;
+  border-radius: 0.4em;
   opacity: 1;
   color: #293147;
 }
 
-.sub-sub-menu {
+.sub-menu-item {
   display: flex;
   flex-direction: column;
-  /* Display submenu items vertically */
-  max-width: 150px;
+  padding: 3px;
+  margin-left: 40px;
 }
 
-.icon-bar.expanded .sub-sub-menu {
+.submenu-title {
+  font-size: 1.1em;
+  padding-left: 10px;
+  width: 100%;
+}
+
+.sub-sub-menu {
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* Display submenu items vertically */
+  max-width: 185px;
+  margin-left: 10px;
 }
 
 .sub-submenu-title {
-  font-size: 0.9rem;
+  font-size: 0.9em;
   color: white;
-  padding: 1px;
-  margin-left: 60px;
-  /* Add space between icon and text */
+  padding: 3px;
+  padding-left: 10px;
 }
 
 .sub-submenu-title:hover {
   background: #cccfd4 !important;
-  border-radius: 0.4rem;
+  border-radius: 0.4em;
   opacity: 1;
   color: #293147;
 }

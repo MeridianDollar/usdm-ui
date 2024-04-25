@@ -24,7 +24,7 @@ export const Header: React.FC = ({ children }) => {
 
   return (
     <>
-      <Container variant="header" style={{ position: "relative", zIndex: 1010, boxShadow: "0 8px 9px -3px rgba(51, 51, 51, 0.3)"}}>
+      <Container variant="header" style={{ position: "relative", zIndex: 1010, paddingRight: "30px", boxShadow: "0 8px 9px -3px rgba(51, 51, 51, 0.3)"}}>
       <Flex sx={{ alignItems: "flexStart", flex: 1, position: 'relative' }}>
     <LiquityLogo sx={{
         height: logoHeight,

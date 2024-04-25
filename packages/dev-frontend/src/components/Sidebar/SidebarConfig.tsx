@@ -105,10 +105,14 @@ const menuConfig: MenuItemConfig[] = [
       subSubMenu:[
         {name: "Gas Top-up", path: "https://www.gas.zip/"},
         {name: "Base Explorer", path: "https://basescan.org/"},
+        {name: "Base Bridge", path: "https://bridge.base.org/"},
         {name: "Fuse Explorer", path: "https://explorer.fuse.io/"},
+        {name: "Fuse Bridge", path: "https://console.fuse.io/bridge"},
         {name: "Meter Explorer", path: "https://scan.meter.io/"},
+        {name: "Meter Bridge", path: "https://passport.meter.io/"},
         {name: "Telos Explorer", path: "https://www.teloscan.io/"},
-        ]
+        {name: "Telos Bridge", path: "https://bridge.telos.net/bridge"},
+       ]
       },
     ] },
 ];

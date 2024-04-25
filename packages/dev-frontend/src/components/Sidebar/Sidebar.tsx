@@ -3,6 +3,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import './Sidebar.css'; // Import CSS for styling
 import menuConfig, { MenuItemConfig, SubMenuItemConfig } from "./SidebarConfig";
 import { SwitchNetwork } from '../NetworkSwitcher';
+import { isInvalidPath } from "./invalidPaths"
 
 interface SidebarProps {
     chainId: number;
@@ -32,29 +33,31 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
     }, []);
 
     const handleItemClick = async (chainId: number, targetChainId: number, path: string, isSubSubMenu: boolean) => {
-        if (chainId != targetChainId && targetChainId != 0) { // change networks if required
-            let newPath = path
-            if (isSubSubMenu) {
-                const hashPath = window.location.hash;
-                const basePath = hashPath.split('/')[0];
-                newPath = `#${basePath.replace(/^#/, '')}${path.slice(1)}`;
-            }
-            try {
-                const newChainName = await SwitchNetwork("0x" + targetChainId.toString(16))
-                // if (newChainName === "Telos") { // getChainName(targetChainId)) {
-                window.location.href = newPath;
-                // }
-            } catch (error) {
-                console.error('Error switching network:', error);
-            }
-        } else {
-            if (targetChainId === 0) {
-                window.open(path, '_blank');
-            } else {
+        if(!isInvalidPath(targetChainId, path)){
+            if (chainId != targetChainId && targetChainId != 0) { // change networks if required
+                let newPath = path
                 if (isSubSubMenu) {
-                    history.push(path);
+                    const hashPath = window.location.hash;
+                    const basePath = hashPath.split('/')[0];
+                    newPath = `#${basePath.replace(/^#/, '')}${path.slice(1)}`;
+                }
+                try {
+                    const newChainName = await SwitchNetwork("0x" + targetChainId.toString(16))
+                    // if (newChainName === "Telos") { // getChainName(targetChainId)) {
+                    window.location.href = newPath;
+                    // }
+                } catch (error) {
+                    console.error('Error switching network:', error);
+                }
+            } else {
+                if (targetChainId === 0) {
+                    window.open(path, '_blank');
                 } else {
-                    window.location.href = path
+                    if (isSubSubMenu) {
+                        history.push(path);
+                    } else {
+                        window.location.href = path
+                    }
                 }
             }
         }
@@ -103,14 +106,16 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                             <div className="sub-menu">
                                 {item.subMenu.map((subItem, subIndex) => (
                                     <div key={subIndex} className="sub-menu-item">
-                                        <span className="submenu-title" onClick={() => handleItemClick(chainId, subItem.networkId, subItem.path, false)}>
-                                            {subItem.name}
-                                        </span>
-                                        {subItem.subSubMenu && (
-                                            <span className={`submenu-arrow ${activeSubSubMenu === subItem.name ? 'submenu-arrow-active' : ''}`} onClick={() => handleSubArrowClick(subItem)}>
-                                                {activeSubSubMenu === subItem.name ? "▼" : "▶"}
+                                        <div className="submenu-title-container">
+                                            <span className="submenu-title" onClick={() => handleItemClick(chainId, subItem.networkId, subItem.path, false)}>
+                                                {subItem.name}
                                             </span>
-                                        )}
+                                            {subItem.subSubMenu && (
+                                                <span className={`submenu-arrow ${activeSubSubMenu === subItem.name ? 'submenu-arrow-active' : ''}`} onClick={() => handleSubArrowClick(subItem)}>
+                                                    {activeSubSubMenu === subItem.name ? "▼" : "▶"}
+                                                </span>
+                                            )}
+                                        </div>
                                         {activeSubSubMenu === subItem.name && subItem.subSubMenu && (
                                             <div className="sub-sub-menu">
                                                 {subItem.subSubMenu.map((subSubItem, subSubIndex) => (
