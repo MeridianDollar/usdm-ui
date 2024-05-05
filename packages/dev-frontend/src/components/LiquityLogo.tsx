@@ -6,9 +6,9 @@ type LiquityLogoProps = React.ComponentProps<typeof Box> & {
 };
 
 export const LiquityLogo: React.FC<LiquityLogoProps> = ({ height, ...boxProps }) => (
-  <Box sx={{ lineHeight: 0 }} {...boxProps}>
+  <Box sx={{ lineHeight: 0, pb: 3 }} {...boxProps}>
     <a href="https://www.meridianfinance.net" target="_self" rel="noopener noreferrer">
-      <Image src="./lusd-icon.png" sx={{ height }} />
+      <Image src="./meridian_logo.svg" sx={{ height }} />
     </a>
   </Box>
 );

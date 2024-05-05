@@ -209,16 +209,16 @@ export function Transaction<C extends React.ReactElement<ButtonlikeProps & Hover
   const clonedTrigger =
     showFailure === "asChildText"
       ? React.cloneElement(
-          trigger,
-          {
-            disabled: true,
-            variant: "danger"
-          },
-          failureReasons[0]
-        )
+        trigger,
+        {
+          disabled: true,
+          variant: "danger"
+        },
+        failureReasons[0]
+      )
       : showFailure === "asTooltip"
-      ? React.cloneElement(trigger, { disabled: true })
-      : React.cloneElement(trigger, { onClick: sendTransaction });
+        ? React.cloneElement(trigger, { disabled: true })
+        : React.cloneElement(trigger, { onClick: sendTransaction });
 
   if (showFailure === "asTooltip") {
     tooltip = failureReasons[0];
@@ -409,16 +409,18 @@ export const TransactionMonitor: React.FC = () => {
           transactionState.type === "confirmed"
             ? "success"
             : transactionState.type === "cancelled"
-            ? "warning"
-            : transactionState.type === "failed"
-            ? "danger"
-            : "primary",
+              ? "warning"
+              : transactionState.type === "failed"
+                ? "danger"
+                : "primary",
         p: 3,
         pl: 4,
         position: "fixed",
         width: "100vw",
         bottom: 0,
-        overflow: "hidden"
+        overflow: "hidden",
+        zIndex: 1050 // Adjust the z-index here
+
       }}
     >
       <Box sx={{ mr: 3, width: "40px", height: "40px" }}>
@@ -429,10 +431,10 @@ export const TransactionMonitor: React.FC = () => {
         {transactionState.type === "waitingForConfirmation"
           ? "Waiting for confirmation"
           : transactionState.type === "cancelled"
-          ? "Cancelled"
-          : transactionState.type === "failed"
-          ? transactionState.error.message
-          : "Confirmed"}
+            ? "Cancelled"
+            : transactionState.type === "failed"
+              ? transactionState.error.message
+              : "Confirmed"}
       </Text>
     </Flex>
   );

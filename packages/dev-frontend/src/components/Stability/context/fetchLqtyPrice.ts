@@ -96,25 +96,25 @@ export interface TLOSYieldResponse {
 }
 
 export const fetchTLOSYield = async (): Promise<TLOSYieldResponse> => {
-  const url = "https://omnidex.bmaa3ajd1gjri.eu-west-2.cs.amazonlightsail.com/stability_pool_yield";
+  const url = "https://omnidex.bmaa3ajd1gjri.eu-west-2.cs.amazonlightsail.com/stability_pool";
   const response = await fetch(url);
   const data = await response.json();
+
   return {
-    TLOSYield: Decimal.from(data)
+    TLOSYield: Decimal.from(data.telos)
   };
 };
-
 
 export interface FUSEYieldResponse {
   FUSEYield: Decimal;
 }
 
 export const fetchFUSEYield = async (): Promise<FUSEYieldResponse> => {
-  const url = "https://omnidex.bmaa3ajd1gjri.eu-west-2.cs.amazonlightsail.com/fuse_stability_pool_yield";
+  const url = "https://omnidex.bmaa3ajd1gjri.eu-west-2.cs.amazonlightsail.com/stability_pool";
   const response = await fetch(url);
   const data = await response.json();
   return {
-    FUSEYield: Decimal.from(data)
+    FUSEYield: Decimal.from(data.fuse)
   };
 };
 
