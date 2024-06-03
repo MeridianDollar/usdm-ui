@@ -33,7 +33,7 @@ type ConnectionAction =
   | { type: "fail"; error: Error }
   | { type: "finishActivating" | "retry" | "cancel" | "deactivate" };
 
-const dappUrl = "https://mint.meridianfinance.net/";
+const dappUrl = "https://testnet.meridianfinance.net/";
 const encodedDappUrl = encodeURIComponent(dappUrl);
 const deepLink = "okx://wallet/dapp/url?dappUrl=" + encodedDappUrl;
 const encodedUrl = "https://www.okx.com/download?deeplink=" + encodeURIComponent(deepLink);
