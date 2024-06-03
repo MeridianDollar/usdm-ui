@@ -33,17 +33,6 @@ type ConnectionAction =
   | { type: "fail"; error: Error }
   | { type: "finishActivating" | "retry" | "cancel" | "deactivate" };
 
-const dappUrl = "https://mint.meridianfinance.net/";
-const encodedDappUrl = encodeURIComponent(dappUrl);
-const deepLink = "okx://wallet/dapp/url?dappUrl=" + encodedDappUrl;
-const encodedUrl = "https://www.okx.com/download?deeplink=" + encodeURIComponent(deepLink);
-
-const ua = navigator.userAgent;
-const isIOS = /iphone|ipad|ipod|ios/i.test(ua);
-const isAndroid = /android|XiaoMi|MiuiBrowser/i.test(ua);
-const isMobile = isIOS || isAndroid;
-const isOKApp = /OKApp/i.test(ua);
-
 const connectionReducer: React.Reducer<ConnectionState, ConnectionAction> = (state, action) => {
   switch (action.type) {
     case "startActivating":
@@ -135,12 +124,6 @@ export const WalletConnector: React.FC<WalletConnectorProps> = ({ children, load
       dispatch({ type: "deactivate" });
     }
   }, [active]);
-
-  useEffect(() => {
-    if (isMobile && !isOKApp) {
-        window.location.href = encodedUrl;
-    }
-}, []);
 
   if (!triedAuthorizedConnection) {
     return <>{loader}</>;
