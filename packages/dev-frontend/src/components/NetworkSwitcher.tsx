@@ -5,7 +5,7 @@ import { ethers } from 'ethers';
 import Select from 'react-select';
 import { useLiquity } from "../hooks/LiquityContext";
 
-export async function SwitchNetwork(newNetwork){
+export async function SwitchNetwork(newNetwork) {
   try {
     if (window.ethereum) {
       await (window as any).ethereum.request({
@@ -28,6 +28,9 @@ function NetworkSwitcher() {
     { value: '0x2105', label: 'Base' },
     { value: '0x28', label: 'Telos' },
     { value: '0x7A', label: 'Fuse' },
+    { value: '0x2E2E', label: 'Artela (Testnet)' },
+    { value: '0xC5CC5', label: 'ZK Link (Testnet)' },
+
     // Add more networks as needed
   ]);
 
@@ -68,7 +71,7 @@ function NetworkSwitcher() {
         options={availableNetworks}
         value={{
           value: selectedNetwork,
-          label: collateral === "TLOS" ? "Telos" : collateral === "FUSE" ? "Fuse" : "Base"
+          label: collateral === "TLOS" ? "Telos" : collateral === "FUSE" ? "Fuse" : collateral === "ART" ? "Artela" : collateral === "ETH" ? "ZKLink" : "Base"
         }}
         onChange={handleNetworkChange}
         styles={{

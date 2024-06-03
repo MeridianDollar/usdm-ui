@@ -35,7 +35,7 @@ export const Yield: React.FC = () => {
         const { lqtyPriceUSD } = await fetchMSTPrice();
         const { TLOSYield } = await fetchTLOSYield();
         const { FUSEYield } = await fetchFUSEYield();
-        
+
         const telosYield = TLOSYield.toString(2)
         const fuseYield = FUSEYield.toString(2)
 
@@ -61,12 +61,12 @@ export const Yield: React.FC = () => {
 
   return (
     <Badge>
-      <Text>{collateral === "TLOS" ? "WTLOS" : collateral === "FUSE" ? "WFUSE" : "MST"}  APR {collateral === "TLOS" ? tlosYield : collateral === "FUSE" ? fuseYield : baseYield}%</Text>
+      <Text>{collateral === "TLOS" ? "WTLOS" : collateral === "FUSE" ? "WFUSE" : collateral === "ART" ? "WART" : collateral === "ETH" ? "WETH" : "MST"}  APR {collateral === "TLOS" ? tlosYield : collateral === "FUSE" ? fuseYield : baseYield}%</Text>
       <InfoIcon
         tooltip={
           <Card variant="tooltip" sx={{ width: ["220px", "518px"] }}>
             <Paragraph>
-              An <Text sx={{ fontWeight: "bold" }}>estimate</Text> of the {collateral === "TLOS" ? "WTLOS" : collateral === "FUSE" ? "WFUSE" :  "MST"} return on the USDM
+              An <Text sx={{ fontWeight: "bold" }}>estimate</Text> of the {collateral === "TLOS" ? "WTLOS" : collateral === "FUSE" ? "WFUSE" : collateral === "ART" ? "WART" : collateral === "ETH" ? "WETH" : "MST"} return on the USDM
               deposited to the Stability Pool over the next year, not including your {collateral} gains from
               liquidations.
             </Paragraph>

@@ -23,20 +23,8 @@ import { EthersCallOverrides, EthersProvider } from "./types";
  * @public
  */
 export interface BlockPolledLiquityStoreExtraState {
-  /**
-   * Number of block that the store state was fetched from.
-   *
-   * @remarks
-   * May be undefined when the store state is fetched for the first time.
-   */
   blockTag?: number;
-
-  /**
-   * Timestamp of latest block (number of seconds since epoch).
-   */
   blockTimestamp: number;
-
-  /** @internal */
   _feesFactory: (blockTimestamp: number, recoveryMode: boolean) => Fees;
 }
 
@@ -56,36 +44,39 @@ export type BlockPolledLiquityStoreState = LiquityStoreState<BlockPolledLiquityS
  */
 export class BlockPolledLiquityStore extends LiquityStore<BlockPolledLiquityStoreExtraState> {
   readonly connection: EthersLiquityConnection;
-
   private readonly _readable: ReadableEthersLiquity;
   private readonly _provider: EthersProvider;
 
   constructor(readable: ReadableEthersLiquity) {
     super();
-
     this.connection = readable.connection;
     this._readable = readable;
     this._provider = _getProvider(readable.connection);
+    console.log("BlockPolledLiquityStore initialized");
   }
 
   private async _getRiskiestTroveBeforeRedistribution(
     overrides?: EthersCallOverrides
   ): Promise<TroveWithPendingRedistribution> {
+    console.log("Fetching riskiest trove before redistribution...");
     const riskiestTroves = await this._readable.getTroves(
       { first: 1, sortedBy: "ascendingCollateralRatio", beforeRedistribution: true },
       overrides
     );
 
     if (riskiestTroves.length === 0) {
+      console.log("No riskiest trove found. Returning default.");
       return new TroveWithPendingRedistribution(AddressZero, "nonExistent");
     }
 
+    console.log("Riskiest trove found:", riskiestTroves[0]);
     return riskiestTroves[0];
   }
 
   private async _get(
     blockTag?: number
   ): Promise<[baseState: LiquityStoreBaseState, extraState: BlockPolledLiquityStoreExtraState]> {
+    console.log(`Fetching state at block ${blockTag ?? "latest"}...`);
     const { userAddress, frontendTag } = this.connection;
 
     const {
@@ -96,9 +87,7 @@ export class BlockPolledLiquityStore extends LiquityStore<BlockPolledLiquityStor
     } = await promiseAllValues({
       blockTimestamp: this._readable._getBlockTimestamp(blockTag),
       _feesFactory: this._readable._getFeesFactory({ blockTag }),
-      calculateRemainingLQTY: this._readable._getRemainingLiquidityMiningLQTYRewardCalculator({blockTag}),
-
-      
+      calculateRemainingLQTY: this._readable._getRemainingLiquidityMiningLQTYRewardCalculator({ blockTag }),
 
       price: this._readable.getPrice({ blockTag }),
       numberOfTroves: this._readable.getNumberOfTroves({ blockTag }),
@@ -118,49 +107,51 @@ export class BlockPolledLiquityStore extends LiquityStore<BlockPolledLiquityStor
 
       ...(userAddress
         ? {
-            accountBalance: this._provider.getBalance(userAddress, blockTag).then(decimalify),
-            lusdBalance: this._readable.getLUSDBalance(userAddress, { blockTag }),
-            lqtyBalance: this._readable.getLQTYBalance(userAddress, { blockTag }),
-            uniTokenBalance: this._readable.getUniTokenBalance(userAddress, { blockTag }),
-            uniTokenAllowance: this._readable.getUniTokenAllowance(userAddress, { blockTag }),
-            liquidityMiningStake: this._readable.getLiquidityMiningStake(userAddress, { blockTag }),
-            liquidityMiningLQTYReward: this._readable.getLiquidityMiningLQTYReward(userAddress, {
-              blockTag
-            }),
-            collateralSurplusBalance: this._readable.getCollateralSurplusBalance(userAddress, {
-              blockTag
-            }),
-            troveBeforeRedistribution: this._readable.getTroveBeforeRedistribution(userAddress, {
-              blockTag
-            }),
-            stabilityDeposit: this._readable.getStabilityDeposit(userAddress, { blockTag }),
-            lqtyStake: this._readable.getLQTYStake(userAddress, { blockTag }),
-            ownFrontend: this._readable.getFrontendStatus(userAddress, { blockTag })
-          }
+          accountBalance: this._provider.getBalance(userAddress, blockTag).then(decimalify),
+          lusdBalance: this._readable.getLUSDBalance(userAddress, { blockTag }),
+          lqtyBalance: this._readable.getLQTYBalance(userAddress, { blockTag }),
+          uniTokenBalance: this._readable.getUniTokenBalance(userAddress, { blockTag }),
+          uniTokenAllowance: this._readable.getUniTokenAllowance(userAddress, { blockTag }),
+          liquidityMiningStake: this._readable.getLiquidityMiningStake(userAddress, { blockTag }),
+          liquidityMiningLQTYReward: this._readable.getLiquidityMiningLQTYReward(userAddress, {
+            blockTag
+          }),
+          collateralSurplusBalance: this._readable.getCollateralSurplusBalance(userAddress, {
+            blockTag
+          }),
+          troveBeforeRedistribution: this._readable.getTroveBeforeRedistribution(userAddress, {
+            blockTag
+          }),
+          stabilityDeposit: this._readable.getStabilityDeposit(userAddress, { blockTag }),
+          lqtyStake: this._readable.getLQTYStake(userAddress, { blockTag }),
+          ownFrontend: this._readable.getFrontendStatus(userAddress, { blockTag })
+        }
         : {
-            accountBalance: Decimal.ZERO,
-            lusdBalance: Decimal.ZERO,
-            lqtyBalance: Decimal.ZERO,
-            uniTokenBalance: Decimal.ZERO,
-            uniTokenAllowance: Decimal.ZERO,
-            liquidityMiningStake: Decimal.ZERO,
-            liquidityMiningLQTYReward: Decimal.ZERO,
-            collateralSurplusBalance: Decimal.ZERO,
-            troveBeforeRedistribution: new TroveWithPendingRedistribution(
-              AddressZero,
-              "nonExistent"
-            ),
-            stabilityDeposit: new StabilityDeposit(
-              Decimal.ZERO,
-              Decimal.ZERO,
-              Decimal.ZERO,
-              Decimal.ZERO,
-              AddressZero
-            ),
-            lqtyStake: new LQTYStake(),
-            ownFrontend: { status: "unregistered" as const }
-          })
+          accountBalance: Decimal.ZERO,
+          lusdBalance: Decimal.ZERO,
+          lqtyBalance: Decimal.ZERO,
+          uniTokenBalance: Decimal.ZERO,
+          uniTokenAllowance: Decimal.ZERO,
+          liquidityMiningStake: Decimal.ZERO,
+          liquidityMiningLQTYReward: Decimal.ZERO,
+          collateralSurplusBalance: Decimal.ZERO,
+          troveBeforeRedistribution: new TroveWithPendingRedistribution(
+            AddressZero,
+            "nonExistent"
+          ),
+          stabilityDeposit: new StabilityDeposit(
+            Decimal.ZERO,
+            Decimal.ZERO,
+            Decimal.ZERO,
+            Decimal.ZERO,
+            AddressZero
+          ),
+          lqtyStake: new LQTYStake(),
+          ownFrontend: { status: "unregistered" as const }
+        })
     });
+
+    console.log("Fetched state:", baseState);
 
     return [
       {
@@ -178,18 +169,23 @@ export class BlockPolledLiquityStore extends LiquityStore<BlockPolledLiquityStor
 
   /** @internal @override */
   protected _doStart(): () => void {
+    console.log("Starting BlockPolledLiquityStore...");
     this._get().then(state => {
       if (!this._loaded) {
+        console.log("Loading initial state...");
         this._load(...state);
       }
     });
 
     const blockListener = async (blockTag: number) => {
+      console.log(`New block detected: ${blockTag}`);
       const state = await this._get(blockTag);
 
       if (this._loaded) {
+        console.log("Updating state...");
         this._update(...state);
       } else {
+        console.log("Loading state...");
         this._load(...state);
       }
     };
@@ -197,6 +193,7 @@ export class BlockPolledLiquityStore extends LiquityStore<BlockPolledLiquityStor
     this._provider.on("block", blockListener);
 
     return () => {
+      console.log("Stopping BlockPolledLiquityStore...");
       this._provider.off("block", blockListener);
     };
   }

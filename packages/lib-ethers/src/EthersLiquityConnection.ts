@@ -9,6 +9,9 @@ import kovan from "../deployments/kovan.json";
 import rinkeby from "../deployments/rinkeby.json";
 import telos_mainnet from "../deployments/telos_mainnet.json";
 import fuse_testnet from "../deployments/fuse_testnet.json";
+import artela_testnet from "../deployments/artela_testnet.json";
+import zklink_testnet from "../deployments/zklink_testnet.json";
+
 import base_mainnet from "../deployments/base_mainnet.json";
 import ropsten from "../deployments/ropsten.json";
 import mainnet from "../deployments/mainnet.json";
@@ -37,6 +40,9 @@ const deployments: {
   [telos_mainnet.chainId]: telos_mainnet,
   [base_mainnet.chainId]: base_mainnet,
   [fuse_testnet.chainId]: fuse_testnet,
+  [artela_testnet.chainId]: artela_testnet,
+  [zklink_testnet.chainId]: zklink_testnet,
+
   // [goerli.chainId]: goerli,
   // [kovan.chainId]: kovan,
   // [kiln.chainId]: kiln,

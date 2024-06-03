@@ -5,6 +5,7 @@ const BASE_MAINNET = 8453
 const FUSE_MAINNET = 122
 const METER_MAINNET = 82
 const TELOS_MAINNET = 40
+// const ARTELA_TESTNET = 11822
 
 export interface InAppPath {
   name: string;

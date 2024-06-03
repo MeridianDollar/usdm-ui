@@ -60,9 +60,11 @@ export class BlockPolledLiquityStore extends LiquityStore<BlockPolledLiquityStor
 
 // @public
 export interface BlockPolledLiquityStoreExtraState {
+    // (undocumented)
     blockTag?: number;
+    // (undocumented)
     blockTimestamp: number;
-    // @internal (undocumented)
+    // (undocumented)
     _feesFactory: (blockTimestamp: number, recoveryMode: boolean) => Fees;
 }
 

@@ -59,6 +59,10 @@ export const LiquityProvider: React.FC<LiquityProviderProps> = ({
           setCollateral("ETH");
         } else if (chainId === 122) {
           setCollateral("FUSE");
+        } else if (chainId === 11822) {
+          setCollateral("ART");
+        } else if (chainId === 810181) {
+          setCollateral("ETH");
         }
         return _connectByChainId(provider, provider.getSigner(account), chainId, {
           userAddress: account,
