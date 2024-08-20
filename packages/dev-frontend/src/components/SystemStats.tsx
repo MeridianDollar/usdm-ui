@@ -178,7 +178,7 @@ export const SystemStats: React.FC<SystemStatsProps> = ({ variant = "info", show
       </Statistic>
       <Statistic
         name={`${collateral} Oracle Price`}
-        tooltip={`Latest ${collateral} Price as reported by DIA Oracle`}
+        tooltip={`Latest ${collateral} Price as reported by Chainlink Oracle`}
       >
         &nbsp;${Decimal.from(price).shorten_4(decimals)}
       </Statistic>

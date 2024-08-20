@@ -51,6 +51,7 @@ export const TrovePage: React.FC = () => {
                 return <Trove />;
             case "Stability Pool":
                 return <Stability />;
+                
             case "Staking":
                 return <Staking />;
             default:

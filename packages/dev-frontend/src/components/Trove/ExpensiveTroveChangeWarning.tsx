@@ -36,22 +36,22 @@ export const ExpensiveTroveChangeWarning: React.FC<ExpensiveTroveChangeWarningPa
       const timeoutId = setTimeout(async () => {
         const populatedTx = await (troveChange.type === "creation"
           ? liquity.populate.openTrove(troveChange.params, {
-              maxBorrowingRate,
-              borrowingFeeDecayToleranceMinutes
-            })
+            maxBorrowingRate,
+            borrowingFeeDecayToleranceMinutes
+          })
           : liquity.populate.adjustTrove(troveChange.params, {
-              maxBorrowingRate,
-              borrowingFeeDecayToleranceMinutes
-            }));
+            maxBorrowingRate,
+            borrowingFeeDecayToleranceMinutes
+          }));
 
         if (!cancelled) {
           setGasEstimationState({ type: "complete", populatedTx });
           console.log(
             "Estimated TX cost: " +
-              Decimal.from(`${populatedTx.rawPopulatedTransaction.gasLimit}`).prettify(0)
+            Decimal.from(`${populatedTx.rawPopulatedTransaction.gasLimit}`).prettify(0)
           );
         }
-      }, 333);
+      }, 1000);
 
       return () => {
         clearTimeout(timeoutId);

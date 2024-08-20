@@ -29,7 +29,7 @@ function NetworkSwitcher() {
     { value: '0x28', label: 'Telos' },
     { value: '0x7A', label: 'Fuse' },
     { value: '0x2E2E', label: 'Artela (Testnet)' },
-    { value: '0xC5CC5', label: 'ZK Link (Testnet)' },
+    {/* { value: '0xC5CC5', label: 'ZK Link (Testnet)' }, */}
 
     // Add more networks as needed
   ]);
@@ -71,7 +71,7 @@ function NetworkSwitcher() {
         options={availableNetworks}
         value={{
           value: selectedNetwork,
-          label: collateral === "TLOS" ? "Telos" : collateral === "FUSE" ? "Fuse" : collateral === "ART" ? "Artela" : collateral === "ETH" ? "ZKLink" : "Base"
+          label: collateral === "TLOS" ? "Telos" : collateral === "FUSE" ? "Fuse" : collateral === "ART" ? "Artela" : "Base"
         }}
         onChange={handleNetworkChange}
         styles={{

@@ -72,8 +72,8 @@ export type _TypeSafeContract<T> = Pick<
   } extends {
     [_ in keyof T]: infer U;
   }
-    ? U
-    : never
+  ? U
+  : never
 >;
 
 type EstimatedContractFunction<R = unknown, A extends unknown[] = unknown[], O = Overrides> = (
@@ -86,35 +86,35 @@ type CallOverridesArg = [overrides?: CallOverrides];
 
 type TypedContract<T extends Contract, U, V> = _TypeSafeContract<T> &
   U &
-  {
-    [P in keyof V]: V[P] extends (...args: infer A) => unknown
-      ? (...args: A) => Promise<ContractTransaction>
-      : never;
-  } & {
-    readonly callStatic: {
-      [P in keyof V]: V[P] extends (...args: [...infer A, never]) => infer R
-        ? (...args: [...A, ...CallOverridesArg]) => R
-        : never;
-    };
-
-    readonly estimateGas: {
-      [P in keyof V]: V[P] extends (...args: infer A) => unknown
-        ? (...args: A) => Promise<BigNumber>
-        : never;
-    };
-
-    readonly populateTransaction: {
-      [P in keyof V]: V[P] extends (...args: infer A) => unknown
-        ? (...args: A) => Promise<PopulatedTransaction>
-        : never;
-    };
-
-    readonly estimateAndPopulate: {
-      [P in keyof V]: V[P] extends (...args: [...infer A, infer O | undefined]) => unknown
-        ? EstimatedContractFunction<PopulatedTransaction, A, O>
-        : never;
-    };
+{
+  [P in keyof V]: V[P] extends (...args: infer A) => unknown
+  ? (...args: A) => Promise<ContractTransaction>
+  : never;
+} & {
+  readonly callStatic: {
+    [P in keyof V]: V[P] extends (...args: [...infer A, never]) => infer R
+    ? (...args: [...A, ...CallOverridesArg]) => R
+    : never;
   };
+
+  readonly estimateGas: {
+    [P in keyof V]: V[P] extends (...args: infer A) => unknown
+    ? (...args: A) => Promise<BigNumber>
+    : never;
+  };
+
+  readonly populateTransaction: {
+    [P in keyof V]: V[P] extends (...args: infer A) => unknown
+    ? (...args: A) => Promise<PopulatedTransaction>
+    : never;
+  };
+
+  readonly estimateAndPopulate: {
+    [P in keyof V]: V[P] extends (...args: [...infer A, infer O | undefined]) => unknown
+    ? EstimatedContractFunction<PopulatedTransaction, A, O>
+    : never;
+  };
+};
 
 const buildEstimatedFunctions = <T>(
   estimateFunctions: Record<string, ContractFunction<BigNumber>>,
@@ -127,9 +127,12 @@ const buildEstimatedFunctions = <T>(
         if (overrides.gasLimit === undefined) {
           const estimatedGas = await estimateFunctions[functionName](...args, overrides);
 
+          // Increase gas limit by 20%
+          const increasedGasLimit = estimatedGas.mul(120).div(100);
+
           overrides = {
             ...overrides,
-            gasLimit: adjustEstimate(estimatedGas)
+            gasLimit: adjustEstimate(increasedGasLimit)
           };
         }
 
@@ -137,6 +140,7 @@ const buildEstimatedFunctions = <T>(
       }
     ])
   );
+
 
 export class _LiquityContract extends Contract {
   readonly estimateAndPopulate: Record<string, EstimatedContractFunction<PopulatedTransaction>>;

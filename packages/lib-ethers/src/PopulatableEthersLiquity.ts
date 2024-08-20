@@ -145,9 +145,9 @@ interface RawTransactionFailedError extends Error {
 export interface _RawTransactionReplacedError extends Error {
   code: ErrorCode.TRANSACTION_REPLACED;
   reason:
-    | _RawErrorReason.TRANSACTION_CANCELLED
-    | _RawErrorReason.TRANSACTION_REPLACED
-    | _RawErrorReason.TRANSACTION_REPRICED;
+  | _RawErrorReason.TRANSACTION_CANCELLED
+  | _RawErrorReason.TRANSACTION_REPLACED
+  | _RawErrorReason.TRANSACTION_REPRICED;
   cancelled: boolean;
   hash: string;
   replacement: EthersTransactionResponse;
@@ -198,7 +198,7 @@ export class EthersTransactionCancelledError extends Error {
  */
 export class SentEthersLiquityTransaction<T = unknown>
   implements
-    SentLiquityTransaction<EthersTransactionResponse, LiquityReceipt<EthersTransactionReceipt, T>> {
+  SentLiquityTransaction<EthersTransactionResponse, LiquityReceipt<EthersTransactionReceipt, T>> {
   /** Ethers' representation of a sent transaction. */
   readonly rawSentTransaction: EthersTransactionResponse;
 
@@ -220,8 +220,8 @@ export class SentEthersLiquityTransaction<T = unknown>
     return rawReceipt
       ? rawReceipt.status
         ? _successfulReceipt(rawReceipt, this._parse(rawReceipt), () =>
-            logsToString(rawReceipt, _getContracts(this._connection))
-          )
+          logsToString(rawReceipt, _getContracts(this._connection))
+        )
         : _failedReceipt(rawReceipt)
       : _pendingReceipt;
   }
@@ -346,7 +346,7 @@ const normalizeBorrowingOperationOptionalParams = (
  */
 export class PopulatedEthersLiquityTransaction<T = unknown>
   implements
-    PopulatedLiquityTransaction<EthersPopulatedTransaction, SentEthersLiquityTransaction<T>> {
+  PopulatedLiquityTransaction<EthersPopulatedTransaction, SentEthersLiquityTransaction<T>> {
   /** Unsigned transaction object populated by Ethers. */
   readonly rawPopulatedTransaction: EthersPopulatedTransaction;
 
@@ -403,11 +403,11 @@ export class PopulatedEthersLiquityTransaction<T = unknown>
 export class PopulatedEthersRedemption
   extends PopulatedEthersLiquityTransaction<RedemptionDetails>
   implements
-    PopulatedRedemption<
-      EthersPopulatedTransaction,
-      EthersTransactionResponse,
-      EthersTransactionReceipt
-    > {
+  PopulatedRedemption<
+    EthersPopulatedTransaction,
+    EthersTransactionResponse,
+    EthersTransactionReceipt
+  > {
   /** {@inheritDoc @liquity/lib-base#PopulatedRedemption.attemptedLUSDAmount} */
   readonly attemptedLUSDAmount: Decimal;
 
@@ -461,7 +461,7 @@ export class PopulatedEthersRedemption
     if (!this._increaseAmountByMinimumNetDebt) {
       throw new Error(
         "PopulatedEthersRedemption: increaseAmountByMinimumNetDebt() can " +
-          "only be called when amount is truncated"
+        "only be called when amount is truncated"
       );
     }
 
@@ -483,11 +483,11 @@ export interface _TroveChangeWithFees<T> {
  */
 export class PopulatableEthersLiquity
   implements
-    PopulatableLiquity<
-      EthersTransactionReceipt,
-      EthersTransactionResponse,
-      EthersPopulatedTransaction
-    > {
+  PopulatableLiquity<
+    EthersTransactionReceipt,
+    EthersTransactionResponse,
+    EthersPopulatedTransaction
+  > {
   private readonly _readable: ReadableEthersLiquity;
 
   constructor(readable: ReadableEthersLiquity) {
@@ -720,18 +720,38 @@ export class PopulatableEthersLiquity
         results: { diff: BigNumber; hintAddress: string }[];
       },
       numberOfTrials: number
-    ) =>
-      hintHelpers
-        .getApproxHint(nominalCollateralRatio.hex, numberOfTrials, latestRandomSeed)
-        .then(({ latestRandomSeed, ...result }) => ({
-          latestRandomSeed,
-          results: [...results, result]
-        }));
+    ) => {
+      const limitedTrials = numberOfTrials > 50 ? 50 : numberOfTrials;
+
+      console.log('collectApproxHint called with:', { latestRandomSeed, results, numberOfTrials, limitedTrials });
+
+      return hintHelpers
+        .getApproxHint(nominalCollateralRatio.hex, limitedTrials, latestRandomSeed)
+        .then(({ latestRandomSeed, ...result }) => {
+          console.log('hintHelpers.getApproxHint result:', { latestRandomSeed, result });
+
+          return {
+            latestRandomSeed,
+            results: [...results, result]
+          };
+        });
+    };
+
+    console.log('Starting the reduce process');
+    const initial = {
+      latestRandomSeed: randomInteger(),
+      results: []
+    };
 
     const { results } = await restOfTrials.reduce(
-      (p, numberOfTrials) => p.then(state => collectApproxHint(state, numberOfTrials)),
-      collectApproxHint({ latestRandomSeed: randomInteger(), results: [] }, firstTrials)
+      (p, numberOfTrials) => p.then(state => {
+        console.log('Reducing with state:', state, 'and numberOfTrials:', numberOfTrials);
+        return collectApproxHint(state, numberOfTrials);
+      }),
+      collectApproxHint(initial, firstTrials)
     );
+
+    console.log('Final results:', results);
 
     const { hintAddress } = results.reduce((a, b) => (a.diff.lt(b.diff) ? a : b));
 
@@ -795,8 +815,8 @@ export class PopulatableEthersLiquity
       partialRedemptionUpperHint,
       partialRedemptionLowerHint
     ] = partialRedemptionHintNICR.isZero()
-      ? [AddressZero, AddressZero]
-      : await this._findHintsForNominalCollateralRatio(
+        ? [AddressZero, AddressZero]
+        : await this._findHintsForNominalCollateralRatio(
           decimalify(partialRedemptionHintNICR)
           // XXX: if we knew the partially redeemed Trove's address, we'd pass it here
         );
@@ -865,7 +885,7 @@ export class PopulatableEthersLiquity
       if (decayedTrove.debt.lt(LUSD_MINIMUM_DEBT)) {
         throw new Error(
           `Trove's debt might fall below ${LUSD_MINIMUM_DEBT} ` +
-            `within ${borrowingFeeDecayToleranceMinutes} minutes`
+          `within ${borrowingFeeDecayToleranceMinutes} minutes`
         );
       }
 
@@ -948,12 +968,12 @@ export class PopulatableEthersLiquity
     const [trove, feeVars] = await Promise.all([
       this._readable.getTrove(address),
       borrowLUSD &&
-        promiseAllValues({
-          fees: this._readable._getFeesFactory(),
-          blockTimestamp: this._readable._getBlockTimestamp(),
-          total: this._readable.getTotal(),
-          price: this._readable.getPrice()
-        })
+      promiseAllValues({
+        fees: this._readable._getFeesFactory(),
+        blockTimestamp: this._readable._getBlockTimestamp(),
+        total: this._readable.getTotal(),
+        price: this._readable.getPrice()
+      })
     ]);
 
     const decayBorrowingRate = (seconds: number) =>
@@ -998,14 +1018,14 @@ export class PopulatableEthersLiquity
       if (decayedTrove.debt.lt(LUSD_MINIMUM_DEBT)) {
         throw new Error(
           `Trove's debt might fall below ${LUSD_MINIMUM_DEBT} ` +
-            `within ${borrowingFeeDecayToleranceMinutes} minutes`
+          `within ${borrowingFeeDecayToleranceMinutes} minutes`
         );
       }
 
       const [gasNow, gasLater] = await Promise.all([
         borrowerOperations.estimateGas.adjustTrove(...txParams(borrowLUSD)),
         borrowLUSD &&
-          borrowerOperations.estimateGas.adjustTrove(...txParams(borrowLUSDSimulatingDecay))
+        borrowerOperations.estimateGas.adjustTrove(...txParams(borrowLUSDSimulatingDecay))
       ]);
 
       let gasLimit = bigNumberMax(addGasForPotentialListTraversal(gasNow), gasLater);
@@ -1263,10 +1283,10 @@ export class PopulatableEthersLiquity
 
         truncatedAmount.lt(attemptedLUSDAmount)
           ? newMaxRedemptionRate =>
-              populateRedemption(
-                truncatedAmount.add(LUSD_MINIMUM_NET_DEBT),
-                newMaxRedemptionRate ?? maxRedemptionRate
-              )
+            populateRedemption(
+              truncatedAmount.add(LUSD_MINIMUM_NET_DEBT),
+              newMaxRedemptionRate ?? maxRedemptionRate
+            )
           : undefined
       );
     };

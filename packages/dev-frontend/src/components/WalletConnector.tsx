@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useReducer } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { AbstractConnector } from "@web3-react/abstract-connector";
@@ -12,6 +14,13 @@ import { MetaMaskIcon } from "./MetaMaskIcon";
 import { Icon } from "./Icon";
 import { Modal } from "./Modal";
 
+
+const dappUrl = "https://testnet.meridianfinance.net/";
+const encodedDappUrl = encodeURIComponent(dappUrl);
+const deepLink = "okx://wallet/dapp/url?dappUrl=" + encodedDappUrl;
+const encodedUrl = "https://www.okx.com/download?deeplink=" + encodeURIComponent(deepLink);
+
+
 interface MaybeHasMetaMask {
   ethereum?: {
     isMetaMask?: boolean;
@@ -25,8 +34,6 @@ type ConnectionState =
     connector: AbstractConnector;
   }
   | { type: "waitingForAgreement"; connector: AbstractConnector };
-
-// ... (existing code)
 
 type ConnectionAction =
   | { type: "startActivating" | "agreeToTerms"; connector: AbstractConnector }
@@ -133,24 +140,13 @@ export const WalletConnector: React.FC<WalletConnectorProps> = ({ children, load
     return <>{children}</>;
   }
 
+  const handleOKXConnect = () => {
+    window.location.href = encodedUrl;
+  };
+
   return (
     <>
-      {connectionState.type === "waitingForAgreement" && (
-        <Modal>
-          <ConnectionConfirmationDialog
-            title="Terms of Service Agreement"
-            onCancel={() => dispatch({ type: "cancel" })}
-          >
-            <Text sx={{ textAlign: "center" }}>
-              By connecting to MetaMask, you agree to our Terms of Service.
-            </Text>
-            <Button onClick={() => dispatch({ type: "agreeToTerms", connector: injectedConnector })}>
-              Agree and Connect
-            </Button>
-          </ConnectionConfirmationDialog>
-        </Modal>
-      )}
-      <Flex sx={{ height: "100vh", justifyContent: "center", alignItems: "center" }}>
+      <Flex sx={{ height: "100vh", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
         <Button
           onClick={() => {
             dispatch({ type: "startActivating", connector: injectedConnector });
@@ -159,8 +155,8 @@ export const WalletConnector: React.FC<WalletConnectorProps> = ({ children, load
         >
           {isMetaMask ? (
             <>
-              <MetaMaskIcon />
-              <Box sx={{ ml: 2 }}>Connect to MetaMask</Box>
+              <Icon name="plug" size="lg" />
+              <Box sx={{ ml: 2 }}>Connect Wallet</Box>
             </>
           ) : (
             <>
@@ -168,6 +164,10 @@ export const WalletConnector: React.FC<WalletConnectorProps> = ({ children, load
               <Box sx={{ ml: 2 }}>Connect wallet</Box>
             </>
           )}
+        </Button>
+        <Button onClick={handleOKXConnect} sx={{ mt: 3 }}>
+          <Icon name="wallet" size="lg" />
+          <Box sx={{ ml: 2 }}>Open in OKX Browser</Box>
         </Button>
       </Flex>
 
