@@ -89,7 +89,7 @@ export const ActiveDeposit: React.FC = () => {
               inputId="deposit-reward"
               amount={stabilityDeposit.lqtyReward.prettify()}
               color={stabilityDeposit.lqtyReward.nonZero && "success"}
-              unit={collateral === "TLOS" ? "WTLOS" : collateral === "FUSE" ? "WFUSE" : collateral === "ART" ? "WART" : GT}
+              unit={collateral === "TLOS" ? "WTLOS" : collateral === "FUSE" ? "WFUSE" : collateral === "ART" ? "WART": collateral === "TARA" ? "WTARA" : GT}
               infoIcon={
                 <InfoIcon
                   tooltip={
@@ -115,11 +115,11 @@ export const ActiveDeposit: React.FC = () => {
           </Button>
 
 
-          <ClaimRewards disabled={!hasGain && !hasReward}>Claim {collateral} and {collateral === "TLOS" ? "WTLOS" : collateral === "FUSE" ? "WFUSE" : collateral === "ART" ? "WART"  : GT}</ClaimRewards>
+          <ClaimRewards disabled={!hasGain && !hasReward}>Claim {collateral} and {collateral === "TLOS" ? "WTLOS" : collateral === "FUSE" ? "WFUSE" : collateral === "ART" ? "WART" : collateral === "TARA" ? "WTARA"  : GT}</ClaimRewards>
         </Flex>
 
         {hasTrove && (
-          <ClaimAndMove disabled={!hasGain}>Claim {collateral === "TLOS" ? "WTLOS" : collateral === "FUSE" ? "WFUSE" : collateral === "ART" ? "WART"  : GT} and move {collateral} to Trove</ClaimAndMove>
+          <ClaimAndMove disabled={!hasGain}>Claim {collateral === "TLOS" ? "WTLOS" : collateral === "FUSE" ? "WFUSE" : collateral === "ART" ? "WART" : collateral === "TARA" ? "WTARA"  : GT} and move {collateral} to Trove</ClaimAndMove>
         )}
       </Box>
 

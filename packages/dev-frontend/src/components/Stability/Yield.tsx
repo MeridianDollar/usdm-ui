@@ -61,12 +61,12 @@ export const Yield: React.FC = () => {
 
   return (
     <Badge>
-      <Text>{collateral === "TLOS" ? "WTLOS" : collateral === "FUSE" ? "WFUSE" : collateral === "ART" ? "WART" : "MST"}  APR {collateral === "TLOS" ? tlosYield : collateral === "FUSE" ? fuseYield : baseYield}%</Text>
+      <Text>{collateral === "TLOS" ? "WTLOS" : collateral === "FUSE" ? "WFUSE" : collateral === "ART" ? "WART" : collateral === "TARA" ? "WTARA" : "MST"}  APR {collateral === "TLOS" ? tlosYield : collateral === "FUSE" ? fuseYield : collateral === "TARA" ? "10" : baseYield}%</Text>
       <InfoIcon
         tooltip={
           <Card variant="tooltip" sx={{ width: ["220px", "518px"] }}>
             <Paragraph>
-              An <Text sx={{ fontWeight: "bold" }}>estimate</Text> of the {collateral === "TLOS" ? "WTLOS" : collateral === "FUSE" ? "WFUSE" : collateral === "ART" ? "WART" :  "MST"} return on the USDM
+              An <Text sx={{ fontWeight: "bold" }}>estimate</Text> of the {collateral === "TLOS" ? "WTLOS" : collateral === "FUSE" ? "WFUSE" : collateral === "ART" ? "WART" : collateral === "TARA" ? "WTARA" : "MST"} return on the USDM
               deposited to the Stability Pool over the next year, not including your {collateral} gains from
               liquidations.
             </Paragraph>

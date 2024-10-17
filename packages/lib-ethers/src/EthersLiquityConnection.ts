@@ -10,6 +10,9 @@ import rinkeby from "../deployments/rinkeby.json";
 import telos_mainnet from "../deployments/telos_mainnet.json";
 import fuse_testnet from "../deployments/fuse_testnet.json";
 import artela_testnet from "../deployments/artela_testnet.json";
+import taraxa_testnet from "../deployments/taraxa_testnet.json";
+// import taraxa_mainnet from "../deployments/taraxa_mainnet.json";
+
 import zklink_testnet from "../deployments/zklink_testnet.json";
 
 import base_mainnet from "../deployments/base_mainnet.json";
@@ -41,7 +44,9 @@ const deployments: {
   [base_mainnet.chainId]: base_mainnet,
   [fuse_testnet.chainId]: fuse_testnet,
   [artela_testnet.chainId]: artela_testnet,
+  [taraxa_testnet.chainId]: taraxa_testnet,
   [zklink_testnet.chainId]: zklink_testnet,
+  // [taraxa_mainnet.chainId]: taraxa_mainnet,
 
   // [goerli.chainId]: goerli,
   // [kovan.chainId]: kovan,

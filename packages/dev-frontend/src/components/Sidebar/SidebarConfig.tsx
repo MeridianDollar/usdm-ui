@@ -6,6 +6,8 @@ const FUSE_MAINNET = 122
 const METER_MAINNET = 82
 const TELOS_MAINNET = 40
 const TAIKO_MAINNET = 167000
+const TARAXA_TESTNET = 841
+
 // const ARTELA_TESTNET = 11822
 
 export interface InAppPath {
@@ -104,6 +106,8 @@ const menuConfig: MenuItemConfig[] = [
       { networkId: FUSE_MAINNET, name: "Fuse", path: "https://stake.meridianfinance.net/#/stakemst" },
       { networkId: METER_MAINNET, name: "Meter", path: "https://stake.meridianfinance.net/#/stakemst" },
       { networkId: TELOS_MAINNET, name: "Telos", path: "https://stake.meridianfinance.net/#/stakemst" },
+      { networkId: TAIKO_MAINNET, name: "Taiko", path: "https://stake.meridianfinance.net/#/stakemst" },
+
     ]
   },
   {
@@ -124,7 +128,10 @@ const menuConfig: MenuItemConfig[] = [
   {
     icon: FaRegChartBar,
     title: "Analytics",
-    path: "https://stake.meridianfinance.net/#/yields",
+    path: "",
+    subMenu: [
+      { networkId: 0, name: "Swaps", path: "https://analytics.swaps.meridianfinance.net" },
+      { networkId: 0, name: "Yields", path: "https://stake.meridianfinance.net/#/yields" },]
   },
   {
     icon: FaEllipsisH,

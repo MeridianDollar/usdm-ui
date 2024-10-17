@@ -113,11 +113,14 @@ export const SystemStats: React.FC<SystemStatsProps> = ({ variant = "info", show
 
   let decimals: number;
 
-  if (collateral === "TLOS" || collateral === "FUSE") {
+  if (collateral === "TARA") {
+    decimals = 5;
+  } else if (collateral === "TLOS" || collateral === "FUSE") {
     decimals = 4;
   } else {
     decimals = 2;
   }
+
 
   return (
     <Card {...{ variant }}>

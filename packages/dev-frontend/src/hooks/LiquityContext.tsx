@@ -61,6 +61,8 @@ export const LiquityProvider: React.FC<LiquityProviderProps> = ({
           setCollateral("FUSE");
         } else if (chainId === 11822) {
           setCollateral("ART");
+        } else if (chainId === 841) {
+          setCollateral("TARA");
         } else if (chainId === 810181) {
           setCollateral("ETH");
         }

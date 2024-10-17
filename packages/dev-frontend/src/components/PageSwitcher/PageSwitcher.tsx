@@ -26,7 +26,7 @@ const PageSwitcher: React.FC = () => {
         <Link to="/pool" className={`page-switcher-button ${activePage === '/pool' ? 'active' : ''}`} onClick={() => handlePageChange('/pool')}>
           Stability
         </Link>
-        {collateral !== "FUSE" && (
+        {collateral !== "FUSE" && collateral !== "TARA" && (
           <Link to="/staking" className={`page-switcher-button ${activePage === '/staking' ? 'active' : ''}`} onClick={() => handlePageChange('/staking')}>
             Staking
           </Link>
