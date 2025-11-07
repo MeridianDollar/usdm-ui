@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useReducer } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { AbstractConnector } from "@web3-react/abstract-connector";
@@ -13,13 +11,6 @@ import { ConnectionConfirmationDialog } from "./ConnectionConfirmationDialog";
 import { MetaMaskIcon } from "./MetaMaskIcon";
 import { Icon } from "./Icon";
 import { Modal } from "./Modal";
-
-
-const dappUrl = "https://testnet.meridianfinance.net/";
-const encodedDappUrl = encodeURIComponent(dappUrl);
-const deepLink = "okx://wallet/dapp/url?dappUrl=" + encodedDappUrl;
-const encodedUrl = "https://www.okx.com/download?deeplink=" + encodeURIComponent(deepLink);
-
 
 interface MaybeHasMetaMask {
   ethereum?: {
@@ -35,21 +26,12 @@ type ConnectionState =
   }
   | { type: "waitingForAgreement"; connector: AbstractConnector };
 
+// ... (existing code)
+
 type ConnectionAction =
   | { type: "startActivating" | "agreeToTerms"; connector: AbstractConnector }
   | { type: "fail"; error: Error }
   | { type: "finishActivating" | "retry" | "cancel" | "deactivate" };
-
-const dappUrl = "https://testnet.meridianfinance.net/";
-const encodedDappUrl = encodeURIComponent(dappUrl);
-const deepLink = "okx://wallet/dapp/url?dappUrl=" + encodedDappUrl;
-const encodedUrl = "https://www.okx.com/download?deeplink=" + encodeURIComponent(deepLink);
-
-const ua = navigator.userAgent;
-const isIOS = /iphone|ipad|ipod|ios/i.test(ua);
-const isAndroid = /android|XiaoMi|MiuiBrowser/i.test(ua);
-const isMobile = isIOS || isAndroid;
-const isOKApp = /OKApp/i.test(ua);
 
 const connectionReducer: React.Reducer<ConnectionState, ConnectionAction> = (state, action) => {
   switch (action.type) {
@@ -143,12 +125,6 @@ export const WalletConnector: React.FC<WalletConnectorProps> = ({ children, load
     }
   }, [active]);
 
-  useEffect(() => {
-    if (isMobile && !isOKApp) {
-        window.location.href = encodedUrl;
-    }
-}, []);
-
   if (!triedAuthorizedConnection) {
     return <>{loader}</>;
   }
@@ -157,13 +133,24 @@ export const WalletConnector: React.FC<WalletConnectorProps> = ({ children, load
     return <>{children}</>;
   }
 
-  const handleOKXConnect = () => {
-    window.location.href = encodedUrl;
-  };
-
   return (
     <>
-      <Flex sx={{ height: "100vh", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+      {connectionState.type === "waitingForAgreement" && (
+        <Modal>
+          <ConnectionConfirmationDialog
+            title="Terms of Service Agreement"
+            onCancel={() => dispatch({ type: "cancel" })}
+          >
+            <Text sx={{ textAlign: "center" }}>
+              By connecting to MetaMask, you agree to our Terms of Service.
+            </Text>
+            <Button onClick={() => dispatch({ type: "agreeToTerms", connector: injectedConnector })}>
+              Agree and Connect
+            </Button>
+          </ConnectionConfirmationDialog>
+        </Modal>
+      )}
+      <Flex sx={{ height: "100vh", justifyContent: "center", alignItems: "center" }}>
         <Button
           onClick={() => {
             dispatch({ type: "startActivating", connector: injectedConnector });
@@ -172,8 +159,8 @@ export const WalletConnector: React.FC<WalletConnectorProps> = ({ children, load
         >
           {isMetaMask ? (
             <>
-              <Icon name="plug" size="lg" />
-              <Box sx={{ ml: 2 }}>Connect Wallet</Box>
+              <MetaMaskIcon />
+              <Box sx={{ ml: 2 }}>Connect to MetaMask</Box>
             </>
           ) : (
             <>
@@ -181,10 +168,6 @@ export const WalletConnector: React.FC<WalletConnectorProps> = ({ children, load
               <Box sx={{ ml: 2 }}>Connect wallet</Box>
             </>
           )}
-        </Button>
-        <Button onClick={handleOKXConnect} sx={{ mt: 3 }}>
-          <Icon name="wallet" size="lg" />
-          <Box sx={{ ml: 2 }}>Open in OKX Browser</Box>
         </Button>
       </Flex>
 
