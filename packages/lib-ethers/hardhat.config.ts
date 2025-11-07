@@ -124,7 +124,7 @@ const config: HardhatUserConfig = {
 
     ...infuraNetwork("ropsten"),
     ...infuraNetwork("rinkeby"),
-    ...infuraNetwork("goerli"),
+    // ...infuraNetwork("goerli"),
     ...infuraNetwork("kovan"),
     ...infuraNetwork("mainnet"),
 

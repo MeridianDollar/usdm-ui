@@ -13,7 +13,7 @@ interface InvalidPath {
     });
   
     if (isInvalid) {
-      window.alert("Please switch network.\nLending is currently only available on Fuse, Meter and Telos networks.");
+      window.alert("Please switch network.\nLending is currently only available on Telos, Fuse & Meter and  networks.");
     }
   
     return isInvalid;

@@ -155,3 +155,16 @@
   opacity: 1;
   color: #293147;
 }
+
+
+.submenu-logo {
+  width: 20px;
+  height: 20px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.submenu-title-container {
+  display: flex;
+  align-items: center;
+}

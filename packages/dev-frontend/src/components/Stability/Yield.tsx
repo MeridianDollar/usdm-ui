@@ -55,13 +55,14 @@ export const Yield: React.FC = () => {
   const lqtyIssuanceOneDayInUSD = lqtyIssuanceOneDay.mul(lqtyPrice);
   const aprPercentage = lqtyIssuanceOneDayInUSD.mulDiv(365 * 100, lusdInStabilityPool);
   const remainingLqtyInUSD = remainingStabilityPoolLQTYReward.mul(lqtyPrice);
-  const baseYield = aprPercentage.toString(2)
+  const baseAprPercentage = 0
+  const baseYield = baseAprPercentage.toString()
 
-  if (aprPercentage.isZero) return null;
+  if (aprPercentage.isZero || collateral === "TARA") return null;
 
   return (
     <Badge>
-      <Text>{collateral === "TLOS" ? "WTLOS" : collateral === "FUSE" ? "WFUSE" : collateral === "ART" ? "WART" : collateral === "TARA" ? "WTARA" : "MST"}  APR {collateral === "TLOS" ? tlosYield : collateral === "FUSE" ? fuseYield : collateral === "TARA" ? "10" : baseYield}%</Text>
+      <Text>{collateral === "TLOS" ? "WTLOS" : collateral === "FUSE" ? "WFUSE" : collateral === "ART" ? "WART" : collateral === "TARA" ? "WTARA" : "MST"}  APR {collateral === "TLOS" ? tlosYield : collateral === "FUSE" ? fuseYield : baseYield}%</Text>
       <InfoIcon
         tooltip={
           <Card variant="tooltip" sx={{ width: ["220px", "518px"] }}>

@@ -35,6 +35,61 @@ getConfig().then(config => {
 });
 
 
+const BASE_CHAIN_ID = 8453;
+
+// 2. Modify the unsupportedNetworkFallback function:
+const unsupportedNetworkFallback = (chainId: number) => {
+  // If the user is on Base, show a custom message
+  if (chainId === BASE_CHAIN_ID) {
+    return (
+      <Flex
+        sx={{
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          textAlign: "center"
+        }}
+      >
+        <Heading sx={{ mb: 3 }}>
+          <Icon name="exclamation-triangle" /> Meridian Mint on Base is no longer in operation.
+        </Heading>
+        <Paragraph sx={{ mb: 3 }}>
+          If you still have funds on Meridian Mint on Base, please contact the team on{" "}
+          <Link
+            href="https://t.me/meridianFinance1"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Telegram
+          </Link>{" "}
+          for further assistance.
+        </Paragraph>
+      </Flex>
+    );
+  }
+
+  // Otherwise, show the default unsupported network message
+  return (
+    <Flex
+      sx={{
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+        textAlign: "center"
+      }}
+    >
+      <Heading sx={{ mb: 3 }}>
+        <Icon name="exclamation-triangle" /> Meridian is not yet deployed to this network.
+      </Heading>
+      Please change your network to either Telos, Taraxa or Fuse.
+    </Flex>
+  );
+};
+
+
+
 const EthersWeb3ReactProvider: React.FC = ({ children }) => {
   return (
     <Web3ReactProvider getLibrary={provider => new BatchedWebSocketAugmentedWeb3Provider(provider)}>
@@ -80,6 +135,7 @@ const UnsupportedMainnetFallback: React.FC = () => (
   </Flex>
 );
 
+// 3. Everything else remains the same
 const App = () => {
   const loader = (
     <Flex sx={{ alignItems: "center", justifyContent: "center", height: "100vh" }}>
@@ -88,31 +144,15 @@ const App = () => {
     </Flex>
   );
 
-  const unsupportedNetworkFallback = (chainId: number) => (
-    <Flex
-      sx={{
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100vh",
-        textAlign: "center"
-      }}
-    >
-      <Heading sx={{ mb: 3 }}>
-        <Icon name="exclamation-triangle" /> Meridian is not yet deployed to{" "}
-        {chainId === 1 ? "this network" : "this network"}.
-      </Heading>
-      Please change your network to either Telos or Base or Fuse.
-    </Flex>
-  );
-
   return (
     <EthersWeb3ReactProvider>
       <ThemeProvider theme={theme}>
-        <div style={{
-          background: "radial-gradient(circle, #f1f1f3 20%, #f1f1f3 50%, #f1f1f3 100%)",
-          minHeight: "100vh"
-        }}>
+        <div
+          style={{
+            background: "radial-gradient(circle, #f1f1f3 20%, #f1f1f3 50%, #f1f1f3 100%)",
+            minHeight: "100vh"
+          }}
+        >
           <WalletConnector loader={loader}>
             <LiquityProvider
               loader={loader}
@@ -128,7 +168,6 @@ const App = () => {
       </ThemeProvider>
     </EthersWeb3ReactProvider>
   );
-
 };
 
 export default App;

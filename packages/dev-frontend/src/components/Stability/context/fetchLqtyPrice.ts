@@ -81,14 +81,26 @@ export interface MstPriceResponse {
 }
 
 export const fetchMSTPrice = async (): Promise<MstPriceResponse> => {
-  const url = "https://omnidex.bmaa3ajd1gjri.eu-west-2.cs.amazonlightsail.com/mst_price";
-  const response = await fetch(url);
-  const data = await response.json();
+  try {
+    const url =
+      "https://api.coingecko.com/api/v3/simple/price?ids=meridian-mst&vs_currencies=usd";
+    const response = await fetch(url);
+    const data = await response.json();
 
-  return {
-    lqtyPriceUSD: Decimal.from(data)
-  };
+    // Access the MST price from CoinGecko using bracket notation
+    const mstPrice = data["meridian-mst"]?.usd || 0;
+
+    return {
+      lqtyPriceUSD: Decimal.from(mstPrice),
+    };
+  } catch (error) {
+    console.error("Error fetching MST price:", error);
+    return {
+      lqtyPriceUSD: Decimal.from(0),
+    };
+  }
 };
+
 
 
 export interface TLOSYieldResponse {
@@ -129,12 +141,14 @@ export interface TVLUSDResponse {
 
 
 export const fetchMSTMcap = async (): Promise<MSTMcapResponse> => {
-  const url = "https://omnidex.bmaa3ajd1gjri.eu-west-2.cs.amazonlightsail.com/mst_mcap";
-  const response = await fetch(url);
-  const data = await response.json();
+  // Get the MST price from the first function
+  const { lqtyPriceUSD } = await fetchMSTPrice();
+
+  // Multiply the MST price by 10,000,000
+  const mcap = lqtyPriceUSD.mul(10000000);
 
   return {
-    MstMcapUSD: Decimal.from(data)
+    MstMcapUSD: mcap,
   };
 };
 

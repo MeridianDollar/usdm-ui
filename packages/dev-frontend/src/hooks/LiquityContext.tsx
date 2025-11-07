@@ -37,7 +37,7 @@ const wsParams = (network: string, infuraApiKey: string): [string, string] => [
   network
 ];
 
-const webSocketSupportedNetworks = ["homestead", "kovan", "rinkeby", "ropsten", "goerli"];
+const webSocketSupportedNetworks = ["homestead", "kovan", "rinkeby", "ropsten"];
 
 export const LiquityProvider: React.FC<LiquityProviderProps> = ({
   children,
@@ -59,7 +59,7 @@ export const LiquityProvider: React.FC<LiquityProviderProps> = ({
           setCollateral("ETH");
         } else if (chainId === 122) {
           setCollateral("FUSE");
-        } else if (chainId === 11822) {
+        } else if (chainId === 11820) {
           setCollateral("ART");
         } else if (chainId === 841) {
           setCollateral("TARA");

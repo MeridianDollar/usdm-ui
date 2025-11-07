@@ -115,7 +115,7 @@ export const SystemStats: React.FC<SystemStatsProps> = ({ variant = "info", show
 
   if (collateral === "TARA") {
     decimals = 5;
-  } else if (collateral === "TLOS" || collateral === "FUSE") {
+  } else if (collateral === "TLOS" || collateral === "FUSE" || collateral === "ART" ) {
     decimals = 4;
   } else {
     decimals = 2;
@@ -165,7 +165,7 @@ export const SystemStats: React.FC<SystemStatsProps> = ({ variant = "info", show
         </Statistic>
       )}
 
-      {collateral != "FUSE" && (
+      {collateral != "FUSE" || "TARA" && (
         <Statistic
           name="Staked MST"
           tooltip="The total amount of MST that is staked for earning fee revenue."

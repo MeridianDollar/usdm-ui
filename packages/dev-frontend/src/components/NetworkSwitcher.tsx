@@ -2,13 +2,24 @@
 
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import Select from 'react-select';
+import Select, { components } from 'react-select';
 import { useLiquity } from "../hooks/LiquityContext";
+
+// Import network logos
+import baseLogo from "../images/networks/base.svg";
+import fuseLogo from "../images/networks/fuse.svg";
+import telosLogo from "../images/networks/telos.svg";
+import taraxaLogo from "../images/networks/taraxa.png";
+import artelaLogo from "../images/networks/artela.png";
+
+
+
+// Import other logos as needed
 
 export async function SwitchNetwork(newNetwork) {
   try {
     if (window.ethereum) {
-      await (window as any).ethereum.request({
+      await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: newNetwork }],
       });
@@ -23,62 +34,79 @@ export async function SwitchNetwork(newNetwork) {
 }
 
 function NetworkSwitcher() {
-  const [selectedNetwork, setSelectedNetwork] = useState(); // Default to Base Mainnet
-  const [availableNetworks, setAvailableNetworks] = useState([
-    { value: '0x2105', label: 'Base' },
-    { value: '0x28', label: 'Telos' },
-    { value: '0x7A', label: 'Fuse' },
-    { value: '0x2E2E', label: 'Artela (Testnet)' },
-    { value: '0x349', label: 'Taraxa' },
-    {/* { value: '0xC5CC5', label: 'ZK Link (Testnet)' }, */ }
+  const { collateral } = useLiquity();
+
+  const networks = [
+    { value: '0x2105', label: 'Base', logo: baseLogo, chainId: 8453, collateral: 'ETH' },
+    { value: '0x28', label: 'Telos', logo: telosLogo, chainId: 40, collateral: 'TLOS' },
+    { value: '0x7A', label: 'Fuse', logo: fuseLogo, chainId: 122, collateral: 'FUSE' },
+    { value: '0x349', label: 'Taraxa', logo: taraxaLogo, chainId: 841, collateral: 'TARA' },
+    { value: '0x2E2C', label: 'Artela', logo: artelaLogo, chainId: 841, collateral: 'ART' },
+
 
     // Add more networks as needed
-  ]);
+  ];
+
+  const [availableNetworks] = useState(networks);
+  const [selectedNetwork, setSelectedNetwork] = useState();
+
+  // Set the selected network based on the collateral
+  useEffect(() => {
+    const currentNetwork = networks.find((net) => net.collateral === collateral);
+    if (currentNetwork) {
+      setSelectedNetwork(currentNetwork);
+    }
+  }, [collateral]);
 
   useEffect(() => {
-    async function changeNetwork() {
-      try {
-        if (window.ethereum) {
-          await (window as any).ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: selectedNetwork }],
-          });
-
-          // Get the updated provider with the new network
-          const updatedProvider = new ethers.providers.Web3Provider(window.ethereum);
-
-          // Now, you can use updatedProvider for your Ethereum interactions with the new network.
-          // For example, get the current network ID:
-          const currentNetworkId = await updatedProvider.send('eth_chainId');
-          console.log(`Current network ID: ${currentNetworkId}`);
-        }
-      } catch (error) {
-        console.error(error);
-      }
+    if (selectedNetwork) {
+      SwitchNetwork(selectedNetwork.value);
     }
-
-    SwitchNetwork(selectedNetwork);
   }, [selectedNetwork]);
 
   const handleNetworkChange = (selectedOption) => {
-    setSelectedNetwork(selectedOption.value);
+    setSelectedNetwork(selectedOption);
   };
 
-  const { collateral } = useLiquity();
+  // Custom Option component
+  const Option = (props) => (
+    <components.Option {...props}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <img
+          src={props.data.logo}
+          alt={props.data.label}
+          style={{ width: 16, height: 16, marginRight: 8 }}
+        />
+        <span>{props.data.label}</span>
+      </div>
+    </components.Option>
+  );
+
+  // Custom SingleValue component
+  const SingleValue = (props) => (
+    <components.SingleValue {...props}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <img
+          src={props.data.logo}
+          alt={props.data.label}
+          style={{ width: 16, height: 16, marginRight: 8 }}
+        />
+        <span>{props.data.label}</span>
+      </div>
+    </components.SingleValue>
+  );
 
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: 'relative' }}>
       <Select
         options={availableNetworks}
-        value={{
-          value: selectedNetwork,
-          label: collateral === "TLOS" ? "Telos" : collateral === "FUSE" ? "Fuse" : collateral === "ART" ? "Artela" : collateral === "TARA" ? "Taraxa" : "Base"
-        }}
+        value={selectedNetwork}
         onChange={handleNetworkChange}
+        components={{ Option, SingleValue }}
         styles={{
           container: (provided) => ({
             ...provided,
-            width: 120,
+            width: 150,
           }),
         }}
       />
